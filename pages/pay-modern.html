@@ -32,7 +32,6 @@
       background:transparent; padding:clamp(4px,1vw,8px);
       z-index:5;
     }
-@media (max-width: 480px){ .tabs{ position:static; margin-bottom:8px } }
     .tabs label{
       flex:1; text-align:center; padding:clamp(10px,3.6vw,14px);
       border:1px solid var(--border); border-radius:999px; cursor:pointer; user-select:none;
@@ -44,7 +43,7 @@
       background:linear-gradient(135deg,#22c55e,#16a34a); color:#04110a;
       border-color:transparent; font-weight:700;
     }
-    .panel{display:none; margin-top:clamp(10px,2.4vw,18px) margin-top:clamp(14px,3vw,20px); }
+    .panel{display:none; margin-top:clamp(10px,2.4vw,18px)}
     #t1:checked ~ #p1, #t2:checked ~ #p2, #t3:checked ~ #p3{display:block}
     .grid{display:grid; gap:clamp(10px,2.4vw,18px); grid-template-columns:1.2fr .8fr}
     @media (max-width: 900px){ .grid{ grid-template-columns:1fr } }
@@ -54,7 +53,7 @@
     }
     .qr{display:flex; justify-content:center; align-items:center}
     .qr img{
-      width:min(92vw, 440px); max-width: 92vw;  height:auto; background:#fff; border-radius:14px;
+      width:min(92vw, 440px); height:auto; background:#fff; border-radius:14px;
       padding:clamp(6px,1.8vw,12px); box-shadow:0 12px 30px rgba(0,0,0,.35);
     }
     .list p{margin:6px 0; font-size:clamp(14px,3.2vw,16px)}
@@ -83,7 +82,7 @@
       <div id="p1" class="panel">
         <div class="grid">
           <div class="card qr">
-            <img src="../assets/pay-tcb-qr.png" alt="VietQR - TECHCOMBANK - 0978705905 - BUI CHI VINH" width="420" height="420" loading="eager" fetchpriority="high" decoding="async">
+            <img src="../assets/qt-tcb.png" alt="VietQR - TECHCOMBANK - 0978705905 - BUI CHI VINH" width="420" height="420" loading="eager" fetchpriority="high" decoding="async">
           </div>
           <div class="card list">
             <p><b>Ngân hàng:</b> TECHCOMBANK</p>
@@ -97,21 +96,94 @@
       <div id="p2" class="panel">
         <div class="grid">
           <div class="card qr">
-            <img src="../assets/pay-momo-qr.png" alt="MoMo - QR nhận tiền" width="420" height="420" loading="lazy" decoding="async">
+            <img src="../assets/momo-qr.png" alt="MoMo - QR nhận tiền" width="420" height="420" loading="lazy" decoding="async">
           </div>
-          <div class="card list"><p><b>Ví:</b> MoMo</p><p><b>Số MoMo:</b> 0978705905</p><p><b>Chủ tài khoản:</b> BUI CHI VINH</p><p class="muted">Mở app MoMo và quét mã.</p></div>
+          <div class="card list"><p><b>Ví:</b> MoMo</p><p id="p2-acc"></p><p id="p2-name"></p><p class="muted" id="p2-raw"></p></div>
         </div>
       </div>
 
       <div id="p3" class="panel">
         <div class="grid">
           <div class="card qr">
-            <img src="../assets/pay-viettel-qr.png" alt="Viettel Money - QR nhận tiền" width="420" height="420" loading="lazy" decoding="async">
+            <img src="../assets/viettel-qr.png" alt="Viettel Money - QR nhận tiền" width="420" height="420" loading="lazy" decoding="async">
           </div>
-          <div class="card list"><p><b>Ví:</b> Viettel Money</p><p><b>Số Viettel Money:</b> 0978705905</p><p><b>Chủ tài khoản:</b> BUI CHI VINH</p><p class="muted">Mở app Viettel Money và quét mã.</p></div>
+          <div class="card list"><p><b>Ví:</b> Viettel Money</p><p id="p3-acc"></p><p id="p3-name"></p><p class="muted" id="p3-raw"></p></div>
         </div>
       </div>
     </section>
   </div>
+
+<!-- ZXING-EMV-INJECT -->
+<script type="module">
+import { BrowserQRCodeReader } from "https://unpkg.com/@zxing/browser@0.1.5/esm/index.js";
+function parseTLV(s){
+  const out={};let i=0;
+  try{
+    while(i+4<=s.length){
+      const tag=s.slice(i,i+2);i+=2;
+      const len=parseInt(s.slice(i,i+2),10);i+=2;
+      const val=s.slice(i,i+len);i+=len;
+      out[tag]=val;
+    }
+  }catch(e){}
+  return out;
+}
+function deriveInfoFromPayload(payload){
+  let acc="",name="";
+  if(/^[0-9]{6,}$/.test(payload)){return {acc:payload,name:""};}
+  const tlv=parseTLV(payload);
+  if(tlv["38"]){
+    const sub=parseTLV(tlv["38"]);
+    if(sub["01"]) acc=sub["01"];
+    if(sub["02"]) name=sub["02"];
+  }
+  if(!acc && tlv["62"]){
+    const sub=parseTLV(tlv["62"]);
+    if(sub["01"] && !acc) acc=sub["01"];
+    if(sub["07"] && !name) name=sub["07"];
+  }
+  if(!acc){
+    const m=payload.match(/(account|acct|stk|so_tai_khoan|soTK|accNo)[=:]([0-9]{6,})/i);
+    if(m) acc=m[2];
+  }
+  if(!name){
+    const m=payload.match(/(name|ten|ctk|holder)[=:]([A-ZÀ-Ỵ\s\.]{3,})/i);
+    if(m) name=m[2].trim();
+  }
+  return {acc,name};
+}
+async function decodeFromImage(img){
+  try{
+    const reader=new BrowserQRCodeReader();
+    const result=await reader.decodeFromImage(img);
+    return (result && result.getText)? result.getText() : (result && result.text) || "";
+  }catch(e){return "";}
+}
+async function handlePanel(panelId,imgSelector,accSel,nameSel,rawSel){
+  const panel=document.getElementById(panelId);
+  if(!panel) return;
+  const img=panel.querySelector(imgSelector);
+  if(!img) return;
+  const payload=await decodeFromImage(img);
+  const raw=document.getElementById(rawSel);
+  if(raw){ raw.textContent=payload? ("Payload: "+payload.slice(0,180)+(payload.length>180?"…":"")) : "Không đọc được mã QR."; }
+  const info=deriveInfoFromPayload(payload);
+  if(info.acc){ const el=document.getElementById(accSel); if(el){ el.innerHTML="<b>Số:</b> "+info.acc; } }
+  if(info.name){ const el=document.getElementById(nameSel); if(el){ el.innerHTML="<b>Chủ tài khoản:</b> "+info.name; } }
+}
+function init(){
+  handlePanel("p2",".qr img","p2-acc","p2-name","p2-raw");
+  handlePanel("p3",".qr img","p3-acc","p3-name","p3-raw");
+  ["t2","t3"].forEach(id=>{
+    const r=document.getElementById(id);
+    if(r) r.addEventListener("change",()=>{
+      if(id==="t2") handlePanel("p2",".qr img","p2-acc","p2-name","p2-raw");
+      if(id==="t3") handlePanel("p3",".qr img","p3-acc","p3-name","p3-raw");
+    });
+  });
+}
+window.addEventListener("DOMContentLoaded",init);
+</script>
+
 </body>
 </html>
