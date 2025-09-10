@@ -28,7 +28,7 @@
       border-radius:18px;
       box-shadow:0 18px 50px rgba(0,0,0,.35);
       overflow:hidden;
-    }
+     overflow: visible; }
     header{padding:clamp(14px,3.6vw,22px) clamp(14px,3.6vw,22px) 0}
     h1{margin:0 0 4px; font-size:clamp(20px,5vw,32px); letter-spacing:.2px}
     .sub{margin:0 0 10px; color:var(--muted); font-size:clamp(12px,2.6vw,15px)}
@@ -40,8 +40,8 @@
       background:linear-gradient(180deg,rgba(2,6,23,.0001),rgba(2,6,23,.25));
       backdrop-filter:blur(6px);
       z-index:10;
-    }
-@media (max-width: 480px){ .tabs{ position:static; margin-bottom:8px } }
+     margin-bottom:8px; z-index:4; }
+@media (max-width: 480px){ .tabs{ position:static; margin-bottom:8px  margin-bottom:8px; z-index:4; } }
     .tab{flex:1; text-align:center; padding:clamp(10px,3.6vw,14px);
       border:1px solid var(--border); border-radius:999px; cursor:pointer; user-select:none;
       background:#0b1222; color:var(--text); min-height:44px;}
@@ -50,7 +50,7 @@
     #t3:checked ~ .tabs label[for=t3]{
       background:linear-gradient(135deg,#22c55e,#16a34a); color:#03100a; border-color:transparent; font-weight:700;
     }
-    .panel{display:none; padding:0 clamp(14px,3.6vw,22px) clamp(16px,3.8vw,24px) margin-top:clamp(14px,3vw,20px); }
+    .panel{display:none; padding:0 clamp(14px,3.6vw,22px) clamp(16px,3.8vw,24px) margin-top:clamp(14px,3vw,20px);  margin-top:10px; }
     #t1:checked ~ #p1, #t2:checked ~ #p2, #t3:checked ~ #p3{display:block}
     /* Layout */
     .grid{display:grid; gap:clamp(10px,2.8vw,18px); grid-template-columns:1.1fr .9fr; align-items:start;}
@@ -108,10 +108,7 @@
           <div class="box qr">
             <img src="assets/pay-momo-qr.png" alt="MoMo - QR nhận tiền" width="420" height="420" loading="lazy">
           </div>
-          <div class="box info">
-            <p><b>Ví:</b> MoMo</p>
-            <p class="muted">Mở app MoMo và quét mã.</p>
-          </div>
+          <div class="box info"><p><b>Ví:</b> MoMo</p><p><b>Số MoMo:</b> 0978705905</p><p><b>Chủ tài khoản:</b> BUI CHI VINH</p></div>
         </div>
       </section>
 
@@ -121,10 +118,7 @@
           <div class="box qr">
             <img src="assets/pay-viettel-qr.png" alt="Viettel Money - QR nhận tiền" width="420" height="420" loading="lazy">
           </div>
-          <div class="box info">
-            <p><b>Ví:</b> Viettel Money</p>
-            <p class="muted">Mở app Viettel Money và quét mã.</p>
-          </div>
+          <div class="box info"><p><b>Ví:</b> Viettel Money</p><p><b>Số Viettel Money:</b> 0978705905</p><p><b>Chủ tài khoản:</b> BUI CHI VINH</p></div>
         </div>
       </section>
 
