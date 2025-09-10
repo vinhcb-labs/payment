@@ -16,13 +16,19 @@
     .tabs{display:flex;gap:10px;padding:0 clamp(12px,3.2vw,18px) 8px}
     .tab-btn{appearance:none;border:1px solid var(--border);background:#0b1222;color:var(--text);padding:10px 14px;border-radius:10px;cursor:pointer;font-size:15px;min-height:44px}
     .tab-btn.active{border-color:var(--accent);box-shadow:0 0 0 2px rgba(34,197,94,.2) inset}
+    .icon{display:inline-flex;align-items:center;justify-content:center;margin-right:8px;width:18px;height:18px;border-radius:6px;font-weight:700;font-size:11px;letter-spacing:.2px}
+    .icon.tcb{background:#e11d48;color:#fff;content:'T'}
+    .icon.tcb::after{content:'T'}
+    .icon.vtm{background:#e11d48;color:#fff}
+    .icon.vtm::after{content:'V'}
+
     .tab-btn.tab-bank.active{border-color:#e11d48; box-shadow:0 0 0 2px rgba(225,29,72,.25) inset}
-    .tab-btn.tab-vtm.active{border-color:#16a34a; box-shadow:0 0 0 2px rgba(22,163,74,.25) inset}
+    .tab-btn.tab-vtm.active{border-color:#e11d48; box-shadow:0 0 0 2px rgba(225,29,72,.25) inset}
     .badge{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;font-size:12px;background:#0b1222;border:1px solid var(--border)}
     .badge:before{content:'';display:inline-block;width:10px;height:10px;border-radius:999px}
-    .badge.vtm:before{background:#16a34a}
+    .badge.vtm:before{background:#e11d48}
     .badge.tcb:before{background:#e11d48}
-    .btn.vtm-btn{border-color:#1f8f4f}
+    .btn.vtm-btn{border-color:#e11d48}
     .btn.tcb-btn{border-color:#b91c1c}
     .grid{display:grid;gap:clamp(10px,2.6vw,18px);grid-template-columns:1.2fr .8fr;align-items:start;padding:0 clamp(12px,3.2vw,18px) clamp(14px,3.2vw,20px)}
     @media (max-width:860px){.grid{grid-template-columns:1fr}}
@@ -49,8 +55,8 @@
       </div>
 
       <div class="tabs">
-        <button id="tab-bank" class="tab-btn tab-bank tab-bank active" onclick="switchTab('bank')">🏦 Ngân hàng (VietQR)</button>
-        <button id="tab-vtm" class="tab-btn tab-vtm tab-vtm" onclick="switchTab('vtm')">🟢 Viettel Money</button>
+        <button id="tab-bank" class="tab-btn tab-bank tab-bank active" onclick="switchTab('bank')"><span class="icon tcb"></span> TECHCOMBANK</button>
+        <button id="tab-vtm" class="tab-btn tab-vtm tab-vtm" onclick="switchTab('vtm')"><span class="icon vtm"></span> VIETTEL MONEY</button>
       </div>
 
       <!-- Panel: Bank transfer (VietQR) -->
@@ -61,7 +67,7 @@
             <canvas id="qr-canvas" style="display:none"></canvas>
           </div>
           <div class="box info">
-            <p><span class="badge tcb">Techcombank</span></p>
+            <p><span class="badge tcb">TECHCOMBANK</span></p>
             <p><b>Ngân hàng:</b> <span id="bankName">TECHCOMBANK</span></p>
             <p><b>Số tài khoản:</b> <span id="acc"></span></p>
             <p><b>Chủ tài khoản:</b> <span id="name"></span></p>
@@ -78,7 +84,7 @@
             <img id="vtm-img" alt="QR Viettel Money" loading="lazy" decoding="async" src="assets/pay-viettel-qr.png">
           </div>
           <div class="box info">
-            <p><span class="badge vtm">Viettel Money</span></p>
+            <p><span class="badge vtm">VIETTEL MONEY</span></p>
             <p><b>SĐT/ID:</b> <span id="vtm-acc">0978705905</span></p>
             <p><b>Chủ tài khoản:</b> <span id="vtm-name">BUI CHI VINH</span></p>
             <button class="btn vtm-btn" onclick="copyVTMInfo()">📋 Sao chép thông tin</button>
