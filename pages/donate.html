@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ủng hộ qua QR (Ngân hàng / MoMo / Viettel Money)</title>
+  <style>
+    :root{--bg:#0f172a;--card:#111827;--muted:#94a3b8;--text:#e2e8f0;--brand:#22c55e}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:#0f172a;color:var(--text)}
+    .wrap{max-width:760px;margin:40px auto;padding:24px;background:var(--card);border-radius:14px;box-shadow:0 8px 28px rgba(0,0,0,.45)}
+    h1{margin:0 0 18px;text-align:center}
+    /* Tabs — CSS-only */
+    .tabs{display:flex;gap:10px;justify-content:center;margin-bottom:14px}
+    .tabs label{padding:10px 16px;border:1px solid #334155;border-radius:999px;cursor:pointer;user-select:none;background:#0b1020}
+    input[type=radio]{display:none}
+    #t1:checked ~ .tabs label[for=t1],
+    #t2:checked ~ .tabs label[for=t2],
+    #t3:checked ~ .tabs label[for=t3]{background:var(--brand);color:#03100a;border-color:transparent;font-weight:700}
+    .panel{display:none}
+    #t1:checked ~ #p1,
+    #t2:checked ~ #p2,
+    #t3:checked ~ #p3{display:block}
+    .qr{display:flex;justify-content:center}
+    .qr img{max-width:360px;background:#fff;border-radius:12px;padding:10px}
+    .card{background:#1e293b;border:1px solid #334155;border-radius:12px;padding:12px;margin-top:12px}
+    .muted{color:var(--muted);font-size:13px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Ủng hộ qua QR</h1>
+
+    <!-- Hidden radios -->
+    <input type="radio" name="tab" id="t1" checked>
+    <input type="radio" name="tab" id="t2">
+    <input type="radio" name="tab" id="t3">
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <label for="t1">Ngân hàng</label>
+      <label for="t2">MoMo</label>
+      <label for="t3">Viettel Money</label>
+    </div>
+
+    <!-- Panels -->
+    <section id="p1" class="panel">
+      <div class="qr">
+        <img src="../assets/qt-tcb.png" alt="VietQR - TECHCOMBANK - 0978705905 - BUI CHI VINH" width="360" height="360">
+      </div>
+      <div class="card">
+        <p><b>Ngân hàng:</b> TECHCOMBANK</p>
+        <p><b>Số tài khoản:</b> 0978705905</p>
+        <p><b>Chủ tài khoản:</b> BUI CHI VINH</p>
+        <p class="muted">Quét bằng app ngân hàng bất kỳ để chuyển khoản (VietQR/NAPAS 24/7).</p>
+      </div>
+    </section>
+
+    <section id="p2" class="panel">
+      <div class="qr">
+        <img src="../assets/momo-qr.png" alt="MoMo - Mã QR nhận tiền" width="360" height="360">
+      </div>
+      <div class="card">
+        <p><b>MoMo:</b> Quét mã bằng app MoMo.</p>
+        <p class="muted">Đây là QR chính thức từ MoMo.</p>
+      </div>
+    </section>
+
+    <section id="p3" class="panel">
+      <div class="qr">
+        <img src="../assets/viettel-qr.png" alt="Viettel Money - Mã QR nhận tiền" width="360" height="360">
+      </div>
+      <div class="card">
+        <p><b>Viettel Money:</b> Quét mã bằng app Viettel Money.</p>
+        <p class="muted">Đây là QR chính thức từ Viettel Money.</p>
+      </div>
+    </section>
+  </div>
+</body>
+</html>
