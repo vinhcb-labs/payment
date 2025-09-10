@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ủng hộ qua QR — Modern Dark</title>
+  <style>
+    :root{--bg:#0b1020;--panel:#0e152a;--glass:rgba(255,255,255,.06);--border:rgba(255,255,255,.12);--text:#e5e7eb;--muted:#9aa4b2;--accent:#22c55e;--accent2:#60a5fa}
+    *{box-sizing:border-box}
+    body{margin:0;background:radial-gradient(1000px 600px at 85% -50%,#1e293b,transparent 60%),linear-gradient(180deg,#0b1020,#0a0f1f);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+    .wrap{max-width:900px;margin:40px auto;padding:28px}
+    .hero{background:linear-gradient(135deg,rgba(96,165,250,.12),rgba(34,197,94,.12));border:1px solid var(--border);border-radius:20px;padding:24px 28px;backdrop-filter:blur(8px);box-shadow:0 20px 60px rgba(0,0,0,.35)}
+    .hero h1{margin:0 0 6px;font-size:clamp(24px,3vw,32px);letter-spacing:.3px}
+    .hero p{margin:0;color:var(--muted)}
+    .tabs{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0 0}
+    .tabs label{padding:10px 16px;border-radius:999px;border:1px solid var(--border);background:rgba(16,24,40,.7);cursor:pointer;user-select:none}
+    input[type=radio]{display:none}
+    #t1:checked ~ .tabs label[for=t1],
+    #t2:checked ~ .tabs label[for=t2],
+    #t3:checked ~ .tabs label[for=t3]{background:linear-gradient(135deg,var(--accent),#16a34a);color:#04110a;border-color:transparent;font-weight:700}
+    .panel{display:none;margin-top:16px}
+    #t1:checked ~ #p1, #t2:checked ~ #p2, #t3:checked ~ #p3{display:block}
+    .grid{display:grid;gap:16px;grid-template-columns:1.15fr .85fr}
+    @media (max-width:860px){ .grid{grid-template-columns:1fr}}
+    .card{background:var(--panel);border:1px solid var(--glass);border-radius:16px;padding:16px}
+    .qr{display:flex;justify-content:center;align-items:center}
+    .qr img{max-width:380px;background:#fff;border-radius:14px;padding:12px;box-shadow:0 12px 30px rgba(0,0,0,.35)}
+    .list p{margin:6px 0}
+    .muted{color:var(--muted);font-size:13px}
+    a{color:#93c5fd;text-decoration:none}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <h1>Ủng hộ qua QR</h1>
+      <p>Chọn phương thức bên dưới để quét mã.</p>
+
+      <!-- Radios -->
+      <input type="radio" name="tab" id="t1" checked>
+      <input type="radio" name="tab" id="t2">
+      <input type="radio" name="tab" id="t3">
+
+      <div class="tabs">
+        <label for="t1">Ngân hàng</label>
+        <label for="t2">MoMo</label>
+        <label for="t3">Viettel Money</label>
+      </div>
+
+      <!-- Panels -->
+      <div id="p1" class="panel">
+        <div class="grid">
+          <div class="card qr"><img src="../assets/qt-tcb.png" alt="VietQR - TECHCOMBANK - 0978705905 - BUI CHI VINH" width="380" height="380"></div>
+          <div class="card list">
+            <p><b>Ngân hàng:</b> TECHCOMBANK</p>
+            <p><b>Số tài khoản:</b> 0978705905</p>
+            <p><b>Chủ tài khoản:</b> BUI CHI VINH</p>
+            <p class="muted">Quét bằng app ngân hàng bất kỳ (VietQR / NAPAS 24/7).</p>
+          </div>
+        </div>
+      </div>
+
+      <div id="p2" class="panel">
+        <div class="grid">
+          <div class="card qr"><img src="../assets/momo-qr.png" alt="MoMo - QR nhận tiền" width="380" height="380"></div>
+          <div class="card list">
+            <p><b>Ví:</b> MoMo</p>
+            <p class="muted">Quét bằng app MoMo để mở trang chuyển tiền.</p>
+          </div>
+        </div>
+      </div>
+
+      <div id="p3" class="panel">
+        <div class="grid">
+          <div class="card qr"><img src="../assets/viettel-qr.png" alt="Viettel Money - QR nhận tiền" width="380" height="380"></div>
+          <div class="card list">
+            <p><b>Ví:</b> Viettel Money</p>
+            <p class="muted">Quét bằng app Viettel Money để chuyển tiền.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</body>
+</html>
