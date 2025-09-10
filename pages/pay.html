@@ -41,6 +41,7 @@
       backdrop-filter:blur(6px);
       z-index:10;
     }
+@media (max-width: 480px){ .tabs{ position:static; margin-bottom:8px } }
     .tab{flex:1; text-align:center; padding:clamp(10px,3.6vw,14px);
       border:1px solid var(--border); border-radius:999px; cursor:pointer; user-select:none;
       background:#0b1222; color:var(--text); min-height:44px;}
@@ -49,7 +50,7 @@
     #t3:checked ~ .tabs label[for=t3]{
       background:linear-gradient(135deg,#22c55e,#16a34a); color:#03100a; border-color:transparent; font-weight:700;
     }
-    .panel{display:none; padding:0 clamp(14px,3.6vw,22px) clamp(16px,3.8vw,24px)}
+    .panel{display:none; padding:0 clamp(14px,3.6vw,22px) clamp(16px,3.8vw,24px) margin-top:clamp(14px,3vw,20px); }
     #t1:checked ~ #p1, #t2:checked ~ #p2, #t3:checked ~ #p3{display:block}
     /* Layout */
     .grid{display:grid; gap:clamp(10px,2.8vw,18px); grid-template-columns:1.1fr .9fr; align-items:start;}
@@ -57,7 +58,7 @@
     .box{background:#0c1326; border:1px solid var(--border); border-radius:14px; padding:clamp(10px,2.8vw,16px)}
     .qr{display:flex; justify-content:center; align-items:center; background:#0c1326}
     .qr img{
-      width:min(92vw, 440px); height:auto; background:#fff; border-radius:12px;
+      width:min(92vw, 440px); max-width: 92vw;  height:auto; background:#fff; border-radius:12px;
       padding:clamp(6px,1.8vw,12px); box-shadow:0 12px 30px rgba(0,0,0,.35);
       image-rendering:auto;
     }
@@ -74,6 +75,11 @@
 <body>
   <div class="wrap">
     <div class="card">
+      <header>
+        <h1>Ủng hộ qua QR</h1>
+        <p class="sub">Thiết kế mobile-first · hiển thị đẹp trên mọi kích thước màn hình</p>
+      </header>
+
       <!-- Radios -->
       <input type="radio" name="tab" id="t1" checked>
       <input type="radio" name="tab" id="t2">
@@ -90,7 +96,7 @@
       <section id="p1" class="panel">
         <div class="grid">
           <div class="box qr">
-            <img src="../assets/pay-tcb-qr.png" alt="VietQR - TECHCOMBANK - 0978705905 - BUI CHI VINH" loading="eager" fetchpriority="high" sizes="(max-width:768px) 92vw, 540px">
+            <img src="../assets/pay-tcb-qr.png" alt="VietQR - TECHCOMBANK - 0978705905 - BUI CHI VINH" width="420" height="420" loading="eager" fetchpriority="high">
           </div>
           <div class="box info">
             <p><b>Ngân hàng:</b> TECHCOMBANK</p>
@@ -105,7 +111,7 @@
       <section id="p2" class="panel">
         <div class="grid">
           <div class="box qr">
-            <img src="../assets/pay-momo-qr.png" alt="MoMo - QR nhận tiền" loading="lazy" sizes="(max-width:768px) 92vw, 540px">
+            <img src="../assets/pay-momo-qr.png" alt="MoMo - QR nhận tiền" width="420" height="420" loading="lazy">
           </div>
           <div class="box info">
             <p><b>Ví:</b> MoMo</p>
@@ -118,7 +124,7 @@
       <section id="p3" class="panel">
         <div class="grid">
           <div class="box qr">
-            <img src="../assets/pay-viettel-qr.png" alt="Viettel Money - QR nhận tiền" loading="lazy" sizes="(max-width:768px) 92vw, 540px">
+            <img src="../assets/pay-viettel-qr.png" alt="Viettel Money - QR nhận tiền" width="420" height="420" loading="lazy">
           </div>
           <div class="box info">
             <p><b>Ví:</b> Viettel Money</p>
