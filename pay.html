@@ -13,6 +13,17 @@
     .head{display:flex;justify-content:space-between;align-items:center;padding:clamp(12px,3.2vw,18px)}
     h1{margin:0;font-size:clamp(20px,5vw,30px)}
     .sub{margin:4px 0 0;color:var(--muted);font-size:clamp(12px,2.6vw,15px)}
+    .tabs{display:flex;gap:10px;padding:0 clamp(12px,3.2vw,18px) 8px}
+    .tab-btn{appearance:none;border:1px solid var(--border);background:#0b1222;color:var(--text);padding:10px 14px;border-radius:10px;cursor:pointer;font-size:15px;min-height:44px}
+    .tab-btn.active{border-color:var(--accent);box-shadow:0 0 0 2px rgba(34,197,94,.2) inset}
+    .tab-btn.tab-bank.active{border-color:#e11d48; box-shadow:0 0 0 2px rgba(225,29,72,.25) inset}
+    .tab-btn.tab-vtm.active{border-color:#16a34a; box-shadow:0 0 0 2px rgba(22,163,74,.25) inset}
+    .badge{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;font-size:12px;background:#0b1222;border:1px solid var(--border)}
+    .badge:before{content:'';display:inline-block;width:10px;height:10px;border-radius:999px}
+    .badge.vtm:before{background:#16a34a}
+    .badge.tcb:before{background:#e11d48}
+    .btn.vtm-btn{border-color:#1f8f4f}
+    .btn.tcb-btn{border-color:#b91c1c}
     .grid{display:grid;gap:clamp(10px,2.6vw,18px);grid-template-columns:1.2fr .8fr;align-items:start;padding:0 clamp(12px,3.2vw,18px) clamp(14px,3.2vw,20px)}
     @media (max-width:860px){.grid{grid-template-columns:1fr}}
     .box{background:#0c1326;border:1px solid var(--border);border-radius:14px;padding:clamp(10px,2.6vw,16px)}
@@ -23,6 +34,8 @@
     .footer{padding:0 clamp(12px,3.2vw,18px) clamp(14px,3.2vw,20px);display:flex;flex-wrap:wrap;gap:10px}
     .btn{appearance:none;border:1px solid var(--border);background:#0b1222;color:var(--text);padding:10px 14px;border-radius:10px;cursor:pointer;font-size:15px;min-height:44px}
     a.btn{color:var(--link);text-decoration:none}
+    .panel{display:none}
+    .panel.active{display:block}
   </style>
 </head>
 <body>
@@ -35,29 +48,57 @@
         </div>
       </div>
 
-      <div class="grid">
-        <div class="box qr">
-          <img id="vietqr" alt="VietQR" loading="eager" fetchpriority="high" decoding="async" onerror="fallbackQR()">
-          <canvas id="qr-canvas" style="display:none"></canvas>
-        </div>
-        <div class="box info">
-          <p><b>Ngân hàng:</b> <span id="bankName">TECHCOMBANK</span></p>
-          <p><b>Số tài khoản:</b> <span id="acc"></span></p>
-          <p><b>Chủ tài khoản:</b> <span id="name"></span></p>
-          <p class="muted">Quét bằng app ngân hàng bất kỳ hỗ trợ VietQR/NAPAS 24/7.</p>
-		  <button class="btn" onclick="copyInfo()">📋 Copy thông tin</button>
-        </div>
+      <div class="tabs">
+        <button id="tab-bank" class="tab-btn tab-bank tab-bank active" onclick="switchTab('bank')">🏦 Ngân hàng (VietQR)</button>
+        <button id="tab-vtm" class="tab-btn tab-vtm tab-vtm" onclick="switchTab('vtm')">🟢 Viettel Money</button>
       </div>
 
-      
+      <!-- Panel: Bank transfer (VietQR) -->
+      <section id="panel-bank" class="panel active">
+        <div class="grid">
+          <div class="box qr">
+            <img id="vietqr" alt="VietQR" loading="eager" fetchpriority="high" decoding="async" onerror="fallbackQR()">
+            <canvas id="qr-canvas" style="display:none"></canvas>
+          </div>
+          <div class="box info">
+            <p><span class="badge tcb">Techcombank</span></p>
+            <p><b>Ngân hàng:</b> <span id="bankName">TECHCOMBANK</span></p>
+            <p><b>Số tài khoản:</b> <span id="acc"></span></p>
+            <p><b>Chủ tài khoản:</b> <span id="name"></span></p>
+            
+            <button class="btn tcb-btn" onclick="copyInfo()">📋 Sao chép thông tin</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Panel: Viettel Money (static PNG QR via CDN) -->
+      <section id="panel-vtm" class="panel">
+        <div class="grid">
+          <div class="box qr">
+            <img id="vtm-img" alt="QR Viettel Money" loading="lazy" decoding="async" src="assets/pay-viettel-qr.png">
+          </div>
+          <div class="box info">
+            <p><span class="badge vtm">Viettel Money</span></p>
+            <p><b>SĐT/ID:</b> <span id="vtm-acc">0978705905</span></p>
+            <p><b>Chủ tài khoản:</b> <span id="vtm-name">BUI CHI VINH</span></p>
+            <button class="btn vtm-btn" onclick="copyVTMInfo()">📋 Sao chép thông tin</button>
+            
+          </div>
+        </div>
+      </section>
+
     </div>
   </div>
 
   <script>
+    // ==== Config Bank (VietQR) ====
     const BANK_CODE = 'tcb';
     const BANK_ACCOUNT = '0978705905';
     const BANK_ACCOUNT_NAME = 'BUI CHI VINH';
     const BANK_NAME_MAP = { tcb: 'TECHCOMBANK' };
+
+    // ==== Config Viettel Money ====
+    const VTM_URL = 'https://viettelmoney.go.link/im3gm';
 
     function buildVietQRImageUrl(bank, acct, name){
       const uName = encodeURIComponent(name);
@@ -65,6 +106,7 @@
     }
 
     (function init(){
+      // Bank info
       document.getElementById('bankName').textContent = BANK_NAME_MAP[BANK_CODE] || BANK_CODE.toUpperCase();
       document.getElementById('acc').textContent = BANK_ACCOUNT;
       document.getElementById('name').textContent = BANK_ACCOUNT_NAME;
@@ -73,35 +115,64 @@
       const img = document.getElementById('vietqr');
       img.src = imgUrl;
 
-      const dl = document.getElementById('downloadLink');
-      dl.href = imgUrl;
-      dl.download = `vietqr_${BANK_CODE}_${BANK_ACCOUNT}.png`;
+      // Viettel Money setup (static PNG from assets)
+      const link = document.getElementById('vtm-link');
+      link.href = VTM_URL;
+
+      const vtmImg = document.getElementById('vtm-img');
+      const vtmImgUrl = 'assets/pay-viettel-qr.png';
+      vtmImg.src = vtmImgUrl;
+
+      const dl = document.getElementById('vtm-download');
+      dl.href = vtmImgUrl;
     })();
 
     function fallbackQR(){
+      // fallback to minimal canvas QR (only if img.vietqr.io fails)
       const img = document.getElementById('vietqr');
       const c = document.getElementById('qr-canvas');
       img.style.display = 'none';
       c.style.display = 'block';
-      const payload = `${BANK_CODE.toUpperCase()}|${BANK_ACCOUNT}|${BANK_ACCOUNT_NAME}`;
+
+      // Lazy-load qrcode library for fallback rendering
       const s = document.createElement('script');
       s.src = 'https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js';
       s.onload = ()=>{
         const holder = document.createElement('div');
-        holder.style.display='inline-block';
-        new QRCode(holder, { text: payload, width: 380, height: 380, correctLevel: QRCode.CorrectLevel.M });
+        new QRCode(holder, { text: `${BANK_CODE.toUpperCase()}|${BANK_ACCOUNT}|${BANK_ACCOUNT_NAME}`, width: 380, height: 380, correctLevel: QRCode.CorrectLevel.M });
         const img2 = holder.querySelector('img') || holder.querySelector('canvas');
         const ctx = c.getContext('2d');
         c.width = 440; c.height = 440;
-        const tmp = new Image(); tmp.onload = ()=>{ ctx.fillStyle='#fff'; ctx.fillRect(0,0,c.width,c.height); ctx.drawImage(tmp,30,30,380,380); }; tmp.src = img2.src;
+        const tmp = new Image();
+        tmp.onload = ()=>{ ctx.fillStyle='#fff'; ctx.fillRect(0,0,c.width,c.height); ctx.drawImage(tmp,30,30,380,380); };
+        tmp.src = img2.src || img2.toDataURL();
       };
-      document.body.appendChild(s);
+      document.head.appendChild(s);
     }
 
     function copyInfo(){
       const t = `Ngân hàng: ${document.getElementById('bankName').textContent}\nSố TK: ${BANK_ACCOUNT}\nChủ TK: ${BANK_ACCOUNT_NAME}`;
       navigator.clipboard.writeText(t).then(()=>alert('Đã copy thông tin.'));
     }
-  </script>
+
+    function copyVTM(){
+      navigator.clipboard.writeText(VTM_URL).then(()=>alert('Đã copy liên kết Viettel Money.'));
+    }
+
+    function switchTab(name){
+      // buttons
+      document.getElementById('tab-bank').classList.toggle('active', name==='bank');
+      document.getElementById('tab-vtm').classList.toggle('active', name==='vtm');
+      // panels
+      document.getElementById('panel-bank').classList.toggle('active', name==='bank');
+      document.getElementById('panel-vtm').classList.toggle('active', name==='vtm');
+    }
+  
+    function copyVTMInfo(){
+      const t = `Ví: Viettel Money\nSố TK: 0978705905\nChủ TK: BUI CHI VINH`;
+      navigator.clipboard.writeText(t).then(()=>alert('Đã copy thông tin Viettel Money.'));
+    }
+
+</script>
 </body>
 </html>
