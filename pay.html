@@ -3,204 +3,105 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Ủng hộ qua QR — Mobile First</title>
+  <title>Payment Gateway</title>
   <style>
-    :root{
-      --bg:#0b1020; --panel:#0f172a; --text:#e2e8f0; --muted:#94a3b8;
-      --border:#233044; --accent:#22c55e; --link:#93c5fd;
-    }
+    :root{ --bg:#0b1020; --panel:#0f172a; --text:#e2e8f0; --muted:#94a3b8; --border:#233044; --accent:#22c55e; --link:#93c5fd; }
     *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-      color:var(--text);
-      background:
-        radial-gradient(1100px 700px at 120% -40%, rgba(96,165,250,.18), transparent 50%),
-        radial-gradient(900px 600px at -10% -30%, rgba(34,197,94,.18), transparent 55%),
-        linear-gradient(180deg,#0b1020,#0a0f1f);
-      padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
-    }
-    .wrap{max-width:980px; margin:clamp(8px,3.5vw,28px) auto; padding:clamp(10px,3vw,24px);}
-    .card{
-      background:var(--panel);
-      border:1px solid var(--border);
-      border-radius:18px;
-      box-shadow:0 18px 50px rgba(0,0,0,.35);
-      overflow:hidden;
-     overflow: visible; }
-    header{padding:clamp(14px,3.6vw,22px) clamp(14px,3.6vw,22px) 0}
-    h1{margin:0 0 4px; font-size:clamp(20px,5vw,32px); letter-spacing:.2px}
-    .sub{margin:0 0 10px; color:var(--muted); font-size:clamp(12px,2.6vw,15px)}
-    /* Tabs (CSS-only) */
-    input[type=radio]{display:none}
-    .tabs{
-      position:sticky; top:calc(env(safe-area-inset-top,0px) + 6px);
-      display:flex; gap:8px; padding:clamp(8px,2vw,12px);
-      background:linear-gradient(180deg,rgba(2,6,23,.0001),rgba(2,6,23,.25));
-      backdrop-filter:blur(6px);
-      z-index:10;
-     margin-bottom:8px; z-index:4; }
-@media (max-width: 480px){ .tabs{ position:static; margin-bottom:8px  margin-bottom:8px; z-index:4; } }
-    .tab{flex:1; text-align:center; padding:clamp(10px,3.6vw,14px);
-      border:1px solid var(--border); border-radius:999px; cursor:pointer; user-select:none;
-      background:#0b1222; color:var(--text); min-height:44px;}
-    #t1:checked ~ .tabs label[for=t1],
-    #t2:checked ~ .tabs label[for=t2],
-    #t3:checked ~ .tabs label[for=t3]{
-      background:linear-gradient(135deg,#22c55e,#16a34a); color:#03100a; border-color:transparent; font-weight:700;
-    }
-    .panel{display:none; padding:0 clamp(14px,3.6vw,22px) clamp(16px,3.8vw,24px) margin-top:clamp(14px,3vw,20px);  margin-top:10px; }
-    #t1:checked ~ #p1, #t2:checked ~ #p2, #t3:checked ~ #p3{display:block}
-    /* Layout */
-    .grid{display:grid; gap:clamp(10px,2.8vw,18px); grid-template-columns:1.1fr .9fr; align-items:start;}
-    @media (max-width: 860px){ .grid{grid-template-columns:1fr;} }
-    .box{background:#0c1326; border:1px solid var(--border); border-radius:14px; padding:clamp(10px,2.8vw,16px)}
-    .qr{display:flex; justify-content:center; align-items:center; background:#0c1326}
-    .qr img{
-      width:min(92vw, 440px); height:auto; background:#fff; border-radius:12px;
-      padding:clamp(6px,1.8vw,12px); box-shadow:0 12px 30px rgba(0,0,0,.35);
-      image-rendering:auto;
-    }
-    .info p{margin:6px 0; font-size:clamp(14px,3.2vw,16px)}
-    .muted{color:var(--muted); font-size:clamp(12px,2.8vw,14px)}
-    .footer{padding:0 clamp(14px,3.6vw,22px) clamp(16px,3.8vw,24px); display:flex; justify-content:center; gap:10px; flex-wrap:wrap}
-    .btn{
-      appearance:none; border:1px solid var(--border); background:#0b1222; color:var(--text);
-      padding:10px 14px; border-radius:10px; cursor:pointer; font-size:15px; min-height:44px;
-    }
-    a.btn{color:#93c5fd; text-decoration:none}
+    body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--text);background:linear-gradient(180deg,#0b1020,#0a0f1f);padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
+    .wrap{max-width:980px;margin:clamp(8px,3.5vw,28px) auto;padding:clamp(10px,3vw,24px)}
+    .card{background:var(--panel);border:1px solid var(--border);border-radius:18px;box-shadow:0 18px 50px rgba(0,0,0,.35);overflow:hidden}
+    .head{display:flex;justify-content:space-between;align-items:center;padding:clamp(12px,3.2vw,18px)}
+    h1{margin:0;font-size:clamp(20px,5vw,30px)}
+    .sub{margin:4px 0 0;color:var(--muted);font-size:clamp(12px,2.6vw,15px)}
+    .grid{display:grid;gap:clamp(10px,2.6vw,18px);grid-template-columns:1.2fr .8fr;align-items:start;padding:0 clamp(12px,3.2vw,18px) clamp(14px,3.2vw,20px)}
+    @media (max-width:860px){.grid{grid-template-columns:1fr}}
+    .box{background:#0c1326;border:1px solid var(--border);border-radius:14px;padding:clamp(10px,2.6vw,16px)}
+    .qr{display:flex;justify-content:center;align-items:center}
+    .qr img,.qr canvas{width:min(92vw,440px);height:auto;background:#fff;border-radius:12px;padding:clamp(6px,1.8vw,12px);box-shadow:0 12px 30px rgba(0,0,0,.35)}
+    .info p{margin:6px 0;font-size:clamp(14px,3.2vw,16px)}
+    .muted{color:var(--muted);font-size:clamp(12px,2.8vw,14px)}
+    .footer{padding:0 clamp(12px,3.2vw,18px) clamp(14px,3.2vw,20px);display:flex;flex-wrap:wrap;gap:10px}
+    .btn{appearance:none;border:1px solid var(--border);background:#0b1222;color:var(--text);padding:10px 14px;border-radius:10px;cursor:pointer;font-size:15px;min-height:44px}
+    a.btn{color:var(--link);text-decoration:none}
   </style>
 </head>
 <body>
   <div class="wrap">
     <div class="card">
-      <!-- Radios -->
-      <input type="radio" name="tab" id="t1" checked>
-      <input type="radio" name="tab" id="t2">
-      <input type="radio" name="tab" id="t3">
-
-      <!-- Tabs -->
-      <div class="tabs">
-        <label class="tab" for="t1">Ngân hàng</label>
-        <label class="tab" for="t2">MoMo</label>
-        <label class="tab" for="t3">Viettel Money</label>
+      <div class="head">
+        <div>
+          <h1> </h1>
+          <p class="sub"> </p>
+        </div>
       </div>
 
-      <!-- Panel: Bank -->
-      <section id="p1" class="panel">
-        <div class="grid">
-          <div class="box qr">
-            <img src="assets/pay-tcb-qr.png" alt="VietQR - TECHCOMBANK - 0978705905 - BUI CHI VINH" width="420" height="420" loading="eager" fetchpriority="high">
-          </div>
-          <div class="box info">
-            <p><b>Ngân hàng:</b> TECHCOMBANK</p>
-            <p><b>Số tài khoản:</b> 0978705905</p>
-            <p><b>Chủ tài khoản:</b> BUI CHI VINH</p>
-            <p class="muted">Quét bằng app ngân hàng bất kỳ (VietQR/NAPAS 24/7). Chạm & phóng to ảnh nếu cần.</p>
-          </div>
+      <div class="grid">
+        <div class="box qr">
+          <img id="vietqr" alt="VietQR" loading="eager" fetchpriority="high" decoding="async" onerror="fallbackQR()">
+          <canvas id="qr-canvas" style="display:none"></canvas>
         </div>
-      </section>
-
-      <!-- Panel: MoMo -->
-      <section id="p2" class="panel">
-        <div class="grid">
-          <div class="box qr">
-            <img src="assets/pay-momo-qr.png" alt="MoMo - QR nhận tiền" width="420" height="420" loading="lazy">
-          </div>
-          <div class="box info"><p><b>Ví:</b> MoMo</p><p><b>Số MoMo:</b> 0978705905</p><p><b>Chủ tài khoản:</b> BUI CHI VINH</p></div>
+        <div class="box info">
+          <p><b>Ngân hàng:</b> <span id="bankName">TECHCOMBANK</span></p>
+          <p><b>Số tài khoản:</b> <span id="acc"></span></p>
+          <p><b>Chủ tài khoản:</b> <span id="name"></span></p>
+          <p class="muted">Quét bằng app ngân hàng bất kỳ hỗ trợ VietQR/NAPAS 24/7.</p>
+		  <button class="btn" onclick="copyInfo()">📋 Copy thông tin</button>
         </div>
-      </section>
-
-      <!-- Panel: Viettel Money -->
-      <section id="p3" class="panel">
-        <div class="grid">
-          <div class="box qr">
-            <img src="assets/pay-viettel-qr.png" alt="Viettel Money - QR nhận tiền" width="420" height="420" loading="lazy">
-          </div>
-          <div class="box info"><p><b>Ví:</b> Viettel Money</p><p><b>Số Viettel Money:</b> 0978705905</p><p><b>Chủ tài khoản:</b> BUI CHI VINH</p></div>
-        </div>
-      </section>
-
-      <div class="footer">
-        <a class="btn" href="assets/pay-tcb-qr.png" download>⬇︎ Tải QR Ngân hàng</a>
-        <a class="btn" href="assets/pay-momo-qr.png" download>⬇︎ Tải QR MoMo</a>
-        <a class="btn" href="assets/pay-viettel-qr.png" download>⬇︎ Tải QR Viettel</a>
       </div>
+
+      
     </div>
   </div>
 
-<!-- ZXING-EMV-INJECT -->
-<script type="module">
-import { BrowserQRCodeReader } from "https://unpkg.com/@zxing/browser@0.1.5/esm/index.js";
-function parseTLV(s){
-  const out={};let i=0;
-  try{
-    while(i+4<=s.length){
-      const tag=s.slice(i,i+2);i+=2;
-      const len=parseInt(s.slice(i,i+2),10);i+=2;
-      const val=s.slice(i,i+len);i+=len;
-      out[tag]=val;
-    }
-  }catch(e){}
-  return out;
-}
-function deriveInfoFromPayload(payload){
-  let acc="",name="";
-  if(/^[0-9]{6,}$/.test(payload)){return {acc:payload,name:""};}
-  const tlv=parseTLV(payload);
-  if(tlv["38"]){
-    const sub=parseTLV(tlv["38"]);
-    if(sub["01"]) acc=sub["01"];
-    if(sub["02"]) name=sub["02"];
-  }
-  if(!acc && tlv["62"]){
-    const sub=parseTLV(tlv["62"]);
-    if(sub["01"] && !acc) acc=sub["01"];
-    if(sub["07"] && !name) name=sub["07"];
-  }
-  if(!acc){
-    const m=payload.match(/(account|acct|stk|so_tai_khoan|soTK|accNo)[=:]([0-9]{6,})/i);
-    if(m) acc=m[2];
-  }
-  if(!name){
-    const m=payload.match(/(name|ten|ctk|holder)[=:]([A-ZÀ-Ỵ\s\.]{3,})/i);
-    if(m) name=m[2].trim();
-  }
-  return {acc,name};
-}
-async function decodeFromImage(img){
-  try{
-    const reader=new BrowserQRCodeReader();
-    const result=await reader.decodeFromImage(img);
-    return (result && result.getText)? result.getText() : (result && result.text) || "";
-  }catch(e){return "";}
-}
-async function handlePanel(panelId,imgSelector,accSel,nameSel,rawSel){
-  const panel=document.getElementById(panelId);
-  if(!panel) return;
-  const img=panel.querySelector(imgSelector);
-  if(!img) return;
-  const payload=await decodeFromImage(img);
-  const raw=document.getElementById(rawSel);
-  if(raw){ raw.textContent=payload? ("Payload: "+payload.slice(0,180)+(payload.length>180?"…":"")) : "Không đọc được mã QR."; }
-  const info=deriveInfoFromPayload(payload);
-  if(info.acc){ const el=document.getElementById(accSel); if(el){ el.innerHTML="<b>Số:</b> "+info.acc; } }
-  if(info.name){ const el=document.getElementById(nameSel); if(el){ el.innerHTML="<b>Chủ tài khoản:</b> "+info.name; } }
-}
-function init(){
-  handlePanel("p2",".qr img","p2-acc","p2-name","p2-raw");
-  handlePanel("p3",".qr img","p3-acc","p3-name","p3-raw");
-  ["t2","t3"].forEach(id=>{
-    const r=document.getElementById(id);
-    if(r) r.addEventListener("change",()=>{
-      if(id==="t2") handlePanel("p2",".qr img","p2-acc","p2-name","p2-raw");
-      if(id==="t3") handlePanel("p3",".qr img","p3-acc","p3-name","p3-raw");
-    });
-  });
-}
-window.addEventListener("DOMContentLoaded",init);
-</script>
+  <script>
+    const BANK_CODE = 'tcb';
+    const BANK_ACCOUNT = '0978705905';
+    const BANK_ACCOUNT_NAME = 'BUI CHI VINH';
+    const BANK_NAME_MAP = { tcb: 'TECHCOMBANK' };
 
+    function buildVietQRImageUrl(bank, acct, name){
+      const uName = encodeURIComponent(name);
+      return `https://img.vietqr.io/image/${bank}-${acct}-qr_only.png?accountName=${uName}`;
+    }
+
+    (function init(){
+      document.getElementById('bankName').textContent = BANK_NAME_MAP[BANK_CODE] || BANK_CODE.toUpperCase();
+      document.getElementById('acc').textContent = BANK_ACCOUNT;
+      document.getElementById('name').textContent = BANK_ACCOUNT_NAME;
+
+      const imgUrl = buildVietQRImageUrl(BANK_CODE, BANK_ACCOUNT, BANK_ACCOUNT_NAME);
+      const img = document.getElementById('vietqr');
+      img.src = imgUrl;
+
+      const dl = document.getElementById('downloadLink');
+      dl.href = imgUrl;
+      dl.download = `vietqr_${BANK_CODE}_${BANK_ACCOUNT}.png`;
+    })();
+
+    function fallbackQR(){
+      const img = document.getElementById('vietqr');
+      const c = document.getElementById('qr-canvas');
+      img.style.display = 'none';
+      c.style.display = 'block';
+      const payload = `${BANK_CODE.toUpperCase()}|${BANK_ACCOUNT}|${BANK_ACCOUNT_NAME}`;
+      const s = document.createElement('script');
+      s.src = 'https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js';
+      s.onload = ()=>{
+        const holder = document.createElement('div');
+        holder.style.display='inline-block';
+        new QRCode(holder, { text: payload, width: 380, height: 380, correctLevel: QRCode.CorrectLevel.M });
+        const img2 = holder.querySelector('img') || holder.querySelector('canvas');
+        const ctx = c.getContext('2d');
+        c.width = 440; c.height = 440;
+        const tmp = new Image(); tmp.onload = ()=>{ ctx.fillStyle='#fff'; ctx.fillRect(0,0,c.width,c.height); ctx.drawImage(tmp,30,30,380,380); }; tmp.src = img2.src;
+      };
+      document.body.appendChild(s);
+    }
+
+    function copyInfo(){
+      const t = `Ngân hàng: ${document.getElementById('bankName').textContent}\nSố TK: ${BANK_ACCOUNT}\nChủ TK: ${BANK_ACCOUNT_NAME}`;
+      navigator.clipboard.writeText(t).then(()=>alert('Đã copy thông tin.'));
+    }
+  </script>
 </body>
 </html>
