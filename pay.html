@@ -29,6 +29,20 @@
 .actions{display:flex;gap:10px;flex-wrap:wrap}.btn{appearance:none;border:1px solid var(--line);background:#0b1222;color:var(--text);padding:10px 14px;border-radius:10px;cursor:pointer;font-size:15px;min-height:44px}
 .btn.tcb{border-color:var(--tcb)}.btn.vtm{border-color:var(--vtm)}
 .hidden{display:none}
+
+/* === Mobile fixes === */
+.tabs{display:flex;gap:10px;padding:14px;flex-wrap:wrap}
+.tab{flex:1 1 200px;min-width:0}
+.qr-wrap{display:grid;grid-template-columns:1fr 360px;gap:18px}
+@media (max-width:900px){
+  .qr-wrap{grid-template-columns:1fr;gap:12px}
+}
+.qr-box{display:flex;justify-content:center}
+.qr-square{width:min(92vw,480px);max-width:480px;aspect-ratio:1/1;background:#fff;border-radius:16px;padding:18px;
+  box-shadow:0 18px 40px rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center}
+.qr-square img,.qr-square canvas{width:100%;height:100%;object-fit:contain;border-radius:10px;display:block}
+.info{padding:14px}
+
 </style>
 </head>
 <body>
@@ -41,6 +55,7 @@
   <div class="panel">
     <div class="tabs">
       <button id="tab-tcb" class="tab tcb active" onclick="switchTab('tcb')"><span class="dot"></span> TECHCOMBANK</button>
+      <button id="tab-sol" class="tab tcb" onclick="switchTab('sol')"><span class="dot"></span> SHINHAN BANK</button>
       <button id="tab-vtm" class="tab vtm" onclick="switchTab('vtm')"><span class="dot"></span> VIETTEL MONEY</button>
     </div>
     <div class="main">
@@ -58,6 +73,20 @@
         </div>
       </div>
 
+
+      <!-- SHINHAN (SOL) -->
+      <div id="pane-sol" class="hidden">
+        <div class="qr-wrap">
+          <div class="qr-box"><div class="qr-square"><img id="sol-qr" alt="VietQR Shinhan"></div></div>
+          <div class="info">
+            <div class="row"><span>Ngân hàng: </span><b>SHINHAN BANK</b></div>
+            <div class="row"><span>Số tài khoản:</span><b id="sol-acc">0978705905</b></div>
+            <div class="row"><span>Chủ tài khoản:</span><b id="sol-name">BUI CHI VINH</b></div>
+            <div class="actions"><button class="btn tcb" onclick="copySOL()">📋 Sao chép</button></div>
+          </div>
+        </div>
+      </div>
+    
       <!-- VTM -->
       <div id="pane-vtm" class="hidden">
         <div class="qr-wrap">
@@ -76,20 +105,35 @@
 </div>
 <script>
 const BANK_CODE='tcb', ACC='0978705905', NAME='BUI CHI VINH';
+const SOL_CODE='sol';
 function buildVietQRImageUrl(bank, acct, name){
   const u=encodeURIComponent(name);
   return `https://img.vietqr.io/image/${bank}-${acct}-qr_only.png?accountName=${u}`;
 }
 document.getElementById('tcb-qr').src = buildVietQRImageUrl(BANK_CODE, ACC, NAME);
+setSOL();
+
 function copyTCB(){navigator.clipboard.writeText(`Ngân hàng: TECHCOMBANK\nSố tài khoản: ${ACC}\nChủ tài khoản: ${NAME}`).then(()=>alert('Đã copy.'));}
 function copyVTM(){navigator.clipboard.writeText(`NHS/VĐT: Viettel Money\nSố tài khoản: ${ACC}\nChủ tài khoản: ${NAME}`).then(()=>alert('Đã copy.'));}
 function switchTab(name){
-  const isTCB=name==='tcb';
-  document.getElementById('tab-tcb').classList.toggle('active',isTCB);
-  document.getElementById('tab-vtm').classList.toggle('active',!isTCB);
-  document.getElementById('pane-tcb').classList.toggle('hidden',!isTCB);
-  document.getElementById('pane-vtm').classList.toggle('hidden',isTCB);
+  const tcb = name==='tcb', sol = name==='sol', vtm = name==='vtm';
+  document.getElementById('tab-tcb').classList.toggle('active', tcb);
+  document.getElementById('tab-sol').classList.toggle('active', sol);
+  document.getElementById('tab-vtm').classList.toggle('active', vtm);
+  document.getElementById('pane-tcb').classList.toggle('hidden', !tcb);
+  document.getElementById('pane-sol').classList.toggle('hidden', !sol);
+  document.getElementById('pane-vtm').classList.toggle('hidden', !vtm);
 }
+
+// Shinhan (SOL)
+function setSOL(){
+  document.getElementById('sol-qr').src = buildVietQRImageUrl(SOL_CODE, ACC, NAME);
+}
+function copySOL(){
+  navigator.clipboard.writeText(`Ngân hàng: SHINHAN BANK\nSố tài khoản: ${ACC}\nChủ tài khoản: ${NAME}`)
+    .then(()=>alert('Đã copy.'));
+}
+
 </script>
 </body>
 </html>
