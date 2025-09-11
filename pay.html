@@ -1,95 +1,186 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Payment • Pro</title>
-<style>
-:root{--bg:#0b1020;--panel:rgba(15,23,42,.72);--text:#e2e8f0;--muted:#94a3b8;--line:#233044;--tcb:#e11d48;--vtm:#e11d48}
-*{box-sizing:border-box}html,body{margin:0;height:100%}body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--text);background:radial-gradient(1200px 700px at 10% -10%,#142036 0%,transparent 60%),radial-gradient(1200px 700px at 100% 0%,#0e162a 0%,transparent 60%),#0b1020}
-.wrap{max-width:1040px;margin:clamp(8px,3.5vw,28px) auto;padding:clamp(10px,3vw,24px)}
-.header{display:flex;align-items:center;gap:14px;margin-bottom:14px}
-.logo{width:36px;height:36px;border-radius:10px;background:#121b31;display:grid;place-items:center;border:1px solid var(--line)}
-.title h1{margin:0;font-size:clamp(20px,5vw,28px)}
-.title p{margin:3px 0 0;color:var(--muted);font-size:14px}
-.panel{background:var(--panel);backdrop-filter:saturate(1.1) blur(10px);border:1px solid var(--line);border-radius:18px;box-shadow:0 12px 50px rgba(0,0,0,.35)}
-.tabs{display:flex;gap:10px;padding:14px;flex-wrap:wrap}
-.tab{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 14px;border-radius:12px;background:#0b1222;border:1px solid var(--line);color:var(--text);cursor:pointer;font-weight:600}
-.tab.active{box-shadow:0 0 0 2px rgba(255,255,255,.08) inset}
-.tab .dot{width:10px;height:10px;border-radius:10px;background:#555}
-.tab.tcb.active{border-color:var(--tcb)}.tab.vtm.active{border-color:var(--vtm)}
-.tab.tcb .dot{background:var(--tcb)}.tab.vtm .dot{background:var(--vtm)}
-.main{padding:0 14px 14px}
-.qr-wrap{display:grid;grid-template-columns:1fr 360px;gap:18px}@media (max-width:900px){.qr-wrap{grid-template-columns:1fr}}
-.qr-box{display:flex;justify-content:center}
-.qr-square{width:min(92vw,480px);max-width:480px;aspect-ratio:1/1;background:#fff;border-radius:16px;padding:18px;box-shadow:0 18px 40px rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center}
-.qr-square img{width:100%;height:100%;object-fit:contain;border-radius:10px;display:block}
-.info{padding:14px}
-.row{display:flex;justify-content:space-between;gap:12px;padding:10px 12px;border:1px dashed var(--line);border-radius:12px;margin-bottom:10px}
-.actions{display:flex;gap:10px;flex-wrap:wrap}.btn{appearance:none;border:1px solid var(--line);background:#0b1222;color:var(--text);padding:10px 14px;border-radius:10px;cursor:pointer;font-size:15px;min-height:44px}
-.btn.tcb{border-color:var(--tcb)}.btn.vtm{border-color:var(--vtm)}
-.hidden{display:none}
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Thanh toán • QR</title>
+  <style>
+    :root{
+      --bg:#0b1220;
+      --card:#0f172a;
+      --muted:#94a3b8;
+      --primary:#f472b6;
+      --primary-ink:#ffe4f1;
+      --ring: rgba(244,114,182,0.4);
+      --radius: 18px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,Apple Color Emoji,Segoe UI Emoji;
+      background: radial-gradient(1200px 600px at 10% -10%, #19233a 0, transparent 40%), var(--bg);
+      color:#e2e8f0;
+      -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+    }
+    .wrap{
+      max-width: 920px;
+      margin: clamp(12px,2.5vh,24px) auto;
+      padding: clamp(12px,3vw,24px);
+      border-radius: calc(var(--radius) + 6px);
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border:1px solid rgba(148,163,184,.15);
+      backdrop-filter: blur(8px);
+    }
+
+    /* Tabs */
+    .tabs{ display:flex; flex-wrap:wrap; gap:12px; }
+    .tab{
+      display:flex; align-items:center; gap:10px;
+      padding: 12px 16px;
+      background:#0b1329; border:1.2px solid rgba(148,163,184,.18);
+      border-radius: 16px; color:#e2e8f0;
+      font-weight:700; letter-spacing:.3px;
+      min-width:min(46%,280px); justify-content:center;
+      transition:.2s ease; position:relative;
+    }
+    .tab .dot{ width:8px; height:8px; border-radius:999px; background:#ef476f; box-shadow:0 0 0 4px rgba(239,71,111,.15) }
+    .tab.active{ border-color: var(--primary); box-shadow: 0 0 0 6px var(--ring) inset; }
+    .tab.active .dot{ background:var(--primary) }
+
+    /* Card */
+    .card{
+      margin-top:16px;
+      border-radius: var(--radius);
+      background: #fff;
+      color:#0f172a;
+      padding: clamp(10px, 2.6vw, 18px);
+      border: 1px solid rgba(2,6,23,.08);
+      max-width: clamp(280px, 92vw, 560px);
+      margin-left:auto; margin-right:auto;
+    }
+    .qr-box{
+      width:100%;
+      aspect-ratio: 1 / 1;
+      background:#fff;
+      border-radius: 16px;
+      display:grid; place-items:center;
+      overflow:hidden;
+    }
+    .qr-box img{
+      width:100%; height:100%;
+      object-fit:contain;
+      image-rendering: pixelated;
+    }
+
+    /* Info list */
+    .list{
+      margin-top: 18px;
+      display:grid;
+      gap:12px;
+    }
+    .row{ 
+      display:grid; grid-template-columns: 1fr 1.2fr; 
+      gap:12px;
+      padding:14px 16px;
+      border:1px dashed rgba(2,6,23,.15);
+      border-radius: 14px;
+      background:#f8fafc;
+      align-items:center;
+      word-break: break-word;
+    }
+    .label{ color:#334155; font-weight:600 }
+    .value{ font-weight:800; color:#0f172a; text-align:right; }
+
+    .actions{ display:flex; justify-content:center; margin-top:14px }
+    button.copy{
+      appearance:none; border:1.2px solid var(--primary);
+      background: linear-gradient(180deg, var(--primary), #ff9ecf);
+      color: #1f2937; font-weight:800;
+      padding:12px 18px; border-radius: 14px;
+      cursor:pointer;
+    }
+
+    /* Mobile tweaks */
+    @media (max-width: 480px){
+      .tab{ min-width: 100%; }
+      .row{ grid-template-columns: 1fr; text-align:left }
+      .value{ text-align:left }
+    }
+  </style>
 </head>
 <body>
-<div class="wrap">
-  <div class="header">
-    
-   
-  </div>
-
-  <div class="panel">
-    <div class="tabs">
-      <button id="tab-tcb" class="tab tcb active" onclick="switchTab('tcb')"><span class="dot"></span> TECHCOMBANK</button>
-      <button id="tab-vtm" class="tab vtm" onclick="switchTab('vtm')"><span class="dot"></span> VIETTEL MONEY</button>
+  <main class="wrap">
+    <div class="tabs" role="tablist" aria-label="Phương thức nhận tiền">
+      <div class="tab" data-bank="techcombank">
+        <span class="dot" aria-hidden="true"></span><span>TECHCOMBANK</span>
+      </div>
+      <div class="tab active" data-bank="viettel">
+        <span class="dot" aria-hidden="true"></span><span>VIETTEL MONEY</span>
+      </div>
     </div>
-    <div class="main">
-      <!-- TCB -->
-      <div id="pane-tcb">
-        <div class="qr-wrap">
-          <div class="qr-box"><div class="qr-square"><img id="tcb-qr" alt="VietQR"></div></div>
-          <div class="info">
-		 
-            <div class="row"><span>Ngân hàng: </span><b>TECHCOMBANK</b></div>
-            <div class="row"><span>Số tài khoản:</span><b id="tcb-acc">0978705905</b></div>
-            <div class="row"><span>Chủ tài khoản:</span><b id="tcb-name">BUI CHI VINH</b></div>
-            <div class="actions"><button class="btn tcb" onclick="copyTCB()">📋 Sao chép</button></div>
-          </div>
-        </div>
+
+    <section class="card" id="qrCard" aria-live="polite">
+      <div class="qr-box">
+        <img id="qrImg" src="./pay-viettel-qr.png" alt="Mã QR thanh toán Viettel Money">
       </div>
 
-      <!-- VTM -->
-      <div id="pane-vtm" class="hidden">
-        <div class="qr-wrap">
-          <div class="qr-box"><div class="qr-square"><img id="vtm-qr" src="assets/pay-viettel-qr.png" alt="Viettel Money"></div></div>
-          <div class="info">
-		  <div class="row"><span>NHS/VĐT: </span><b>VIETTEL MONEY</b></div>
-            <div class="row"><span>Số tài khoản:</span><b id="vtm-acc">0978705905</b></div>
-            <div class="row"><span>Chủ tài khoản:</span><b id="vtm-name">BUI CHI VINH</b></div>
-            <div class="actions"><button class="btn vtm" onclick="copyVTM()">📋 Sao chép</button></div>
-          </div>
-        </div>
+      <div class="list" id="infoList">
+        <div class="row"><div class="label">NHS/VDT:</div><div class="value" id="bankName">VIETTEL MONEY</div></div>
+        <div class="row"><div class="label">Số tài khoản:</div><div class="value" id="acc">0978705905</div></div>
+        <div class="row"><div class="label">Chủ tài khoản:</div><div class="value" id="name">BUI CHI VINH</div></div>
       </div>
 
-    </div>
-  </div>
-</div>
-<script>
-const BANK_CODE='tcb', ACC='0978705905', NAME='BUI CHI VINH';
-function buildVietQRImageUrl(bank, acct, name){
-  const u=encodeURIComponent(name);
-  return `https://img.vietqr.io/image/${bank}-${acct}-qr_only.png?accountName=${u}`;
-}
-document.getElementById('tcb-qr').src = buildVietQRImageUrl(BANK_CODE, ACC, NAME);
-function copyTCB(){navigator.clipboard.writeText(`Ngân hàng: TECHCOMBANK\nSố tài khoản: ${ACC}\nChủ tài khoản: ${NAME}`).then(()=>alert('Đã copy.'));}
-function copyVTM(){navigator.clipboard.writeText(`NHS/VĐT: Viettel Money\nSố tài khoản: ${ACC}\nChủ tài khoản: ${NAME}`).then(()=>alert('Đã copy.'));}
-function switchTab(name){
-  const isTCB=name==='tcb';
-  document.getElementById('tab-tcb').classList.toggle('active',isTCB);
-  document.getElementById('tab-vtm').classList.toggle('active',!isTCB);
-  document.getElementById('pane-tcb').classList.toggle('hidden',!isTCB);
-  document.getElementById('pane-vtm').classList.toggle('hidden',isTCB);
-}
-</script>
+      <div class="actions"><button class="copy" id="copyBtn">Sao chép số tài khoản</button></div>
+    </section>
+  </main>
+
+  <script>
+    const data = {
+      viettel: {
+        bankName: "VIETTEL MONEY",
+        acc: "0978705905",
+        name: "BUI CHI VINH",
+        img: "./pay-viettel-qr.png",
+        alt: "Mã QR thanh toán Viettel Money"
+      },
+      
+      techcombank: {
+        bankName: "TECHCOMBANK",
+        acc: "0978705905",
+        name: "BUI CHI VINH",
+        img: "https://img.vietqr.io/image/tcb-0978705905-qr_only.png?accountName=BUI%20CHI%20VINH",
+        alt: "Mã QR Techcombank"
+      }
+    };
+
+    const tabs = document.querySelectorAll('.tab');
+    const bankNameEl = document.getElementById('bankName');
+    const accEl = document.getElementById('acc');
+    const nameEl = document.getElementById('name');
+    const imgEl = document.getElementById('qrImg');
+    const copyBtn = document.getElementById('copyBtn');
+
+    function setBank(key){
+      tabs.forEach(t=>t.classList.toggle('active', t.dataset.bank===key));
+      const d = data[key];
+      bankNameEl.textContent = d.bankName;
+      accEl.textContent = d.acc;
+      nameEl.textContent = d.name;
+      imgEl.src = d.img;
+      imgEl.alt = d.alt;
+    }
+
+    tabs.forEach(t=>{
+      t.addEventListener('click', ()=> setBank(t.dataset.bank));
+    });
+
+    copyBtn.addEventListener('click', ()=>{
+      navigator.clipboard.writeText(accEl.textContent).then(()=>{
+        copyBtn.textContent = "Đã sao chép ✓";
+        setTimeout(()=>copyBtn.textContent="Sao chép số tài khoản", 1400);
+      });
+    });
+  </script>
 </body>
 </html>
