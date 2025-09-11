@@ -34,30 +34,6 @@
     .box{background:#0c1326;border:1px solid var(--border);border-radius:14px;padding:clamp(10px,2.6vw,16px)}
     .qr{display:flex;justify-content:center;padding:0}
     .qr img,.qr canvas{display:block;width:100%;max-width:440px;height:auto;background:#fff;border-radius:12px;padding:clamp(6px,2.5vw,12px);box-shadow:0 12px 30px rgba(0,0,0,.35)}
-    /* --- Equal square QR frames (desktop + mobile) --- */
-    .qr{padding:0}
-    .qr-box{
-      width:min(92vw, 440px);
-      aspect-ratio:1/1;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background:#fff;
-      border-radius:12px;
-      padding:16px;
-      box-shadow:0 12px 30px rgba(0,0,0,.35);
-    }
-    .qr-box img, .qr-box canvas{
-      width:100%;
-      height:100%;
-      object-fit:contain;
-      background:transparent;
-      padding:0;
-      border-radius:10px;
-      box-shadow:none;
-      display:block;
-    }
-
     .info p{margin:6px 0;font-size:clamp(14px,3.2vw,16px)}
     .muted{color:var(--muted);font-size:clamp(12px,2.8vw,14px)}
     .footer{padding:0 clamp(12px,3.2vw,18px) clamp(14px,3.2vw,20px);display:flex;flex-wrap:wrap;gap:10px}
@@ -92,9 +68,7 @@
       <section id="panel-bank" class="panel active">
         <div class="grid">
           <div class="box qr">
-            <div class="qr-box">
-              <img id="vietqr" alt="VietQR" loading="eager" fetchpriority="high" decoding="async" onerror="fallbackQR()">
-            </div>
+            <img id="vietqr" alt="VietQR" loading="eager" fetchpriority="high" decoding="async" onerror="fallbackQR()">
             <canvas id="qr-canvas" style="display:none"></canvas>
           </div>
           <div class="box info">
@@ -111,9 +85,7 @@
       <section id="panel-vtm" class="panel">
         <div class="grid">
           <div class="box qr">
-            <div class="qr-box">
-              <img id="vtm-img" alt="QR Viettel Money" loading="lazy" decoding="async" src="assets/pay-viettel-qr.png">
-            </div>
+            <img id="vtm-img" alt="QR Viettel Money" loading="lazy" decoding="async" src="assets/pay-viettel-qr.png">
           </div>
           <div class="box info">
             <!--<p><span class="badge vtm">VIETTEL MONEY</span></p>-->
