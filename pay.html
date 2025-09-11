@@ -89,6 +89,7 @@
           </div>
           <div class="box info">
             <!--<p><span class="badge vtm">VIETTEL MONEY</span></p>-->
+			<p>NHS/VĐT: <b>VIETTEL MONEY</b></p>
 			<p>Số tài khoản: <b><span id="vtm-acc">0978705905</span></b></p>
             <p>Chủ tài khoản: <b><span id="vtm-name">BUI CHI VINH</span></b></p>
             <button class="btn vtm-btn" onclick="copyVTMInfo()">📋 Sao chép thông tin</button>
@@ -155,7 +156,7 @@
     }
 
     function copyVTMInfo(){
-      const t = `Ví điện tử: Viettel Money\nSố tài khoản: 0978705905\nChủ tài khoản: BUI CHI VINH`;
+      const t = `NHS/VĐT: Viettel Money\nSố tài khoản: 0978705905\nChủ tài khoản: BUI CHI VINH`;
       navigator.clipboard.writeText(t).then(()=>alert('Đã copy thông tin Viettel Money.'));
     }
 
