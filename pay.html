@@ -1,171 +1,95 @@
 <!doctype html>
 <html lang="vi">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Payment Gateway</title>
-  <style>
-    :root{ --bg:#0b1020; --panel:#0f172a; --text:#e2e8f0; --muted:#94a3b8; --border:#233044; --accent:#22c55e; --link:#93c5fd; }
-    *{box-sizing:border-box}
-    body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--text);background:linear-gradient(180deg,#0b1020,#0a0f1f);padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
-    .wrap{max-width:980px;margin:clamp(8px,3.5vw,28px) auto;padding:clamp(10px,3vw,24px)}
-    .card{background:var(--panel);border:1px solid var(--border);border-radius:18px;box-shadow:0 18px 50px rgba(0,0,0,.35);overflow:hidden}
-    .head{display:flex;justify-content:space-between;align-items:center;padding:clamp(12px,3.2vw,18px)}
-    h1{margin:0;font-size:clamp(20px,5vw,30px)}
-    .sub{margin:4px 0 0;color:var(--muted);font-size:clamp(12px,2.6vw,15px)}
-    .tabs{display:flex;gap:10px;padding:0 clamp(12px,3.2vw,18px) 8px;flex-wrap:wrap}
-    .tab-btn{appearance:none;border:1px solid var(--border);background:#0b1222;color:var(--text);padding:12px 16px;border-radius:12px;cursor:pointer;font-size:15px;min-height:44px;flex:1 1 180px;text-align:center}
-    .tab-btn.active{border-color:var(--accent);box-shadow:0 0 0 2px rgba(34,197,94,.2) inset}
-    .tab-btn.tab-bank.active{border-color:#e11d48; box-shadow:0 0 0 2px rgba(225,29,72,.25) inset}
-    .tab-btn.tab-vtm.active{border-color:#e11d48; box-shadow:0 0 0 2px rgba(225,29,72,.25) inset}
-    .icon{display:inline-flex;align-items:center;justify-content:center;margin-right:8px;width:18px;height:18px;border-radius:6px;font-weight:700;font-size:11px;letter-spacing:.2px}
-    .icon.tcb{background:#e11d48;color:#fff}
-    .icon.tcb::after{content:'T'}
-    .icon.vtm{background:#e11d48;color:#fff}
-    .icon.vtm::after{content:'V'}
-    .badge{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;font-size:12px;background:#0b1222;border:1px solid var(--border)}
-    .badge:before{content:'';display:inline-block;width:10px;height:10px;border-radius:999px}
-    .badge.vtm:before{background:#e11d48}
-    .badge.tcb:before{background:#e11d48}
-    .btn.vtm-btn{border-color:#e11d48}
-    .btn.tcb-btn{border-color:#b91c1c}
-    .grid{display:grid;gap:clamp(10px,2.6vw,18px);grid-template-columns:1.2fr .8fr;align-items:start;padding:0 clamp(12px,3.2vw,18px) clamp(14px,3.2vw,20px)}
-    @media (max-width:860px){.grid{grid-template-columns:1fr}}
-    .box{background:#0c1326;border:1px solid var(--border);border-radius:14px;padding:clamp(10px,2.6vw,16px)}
-    .qr{display:flex;justify-content:center;padding:0}
-    .qr img,.qr canvas{display:block;width:100%;max-width:440px;height:auto;background:#fff;border-radius:12px;padding:clamp(6px,2.5vw,12px);box-shadow:0 12px 30px rgba(0,0,0,.35)}
-    .info p{margin:6px 0;font-size:clamp(14px,3.2vw,16px)}
-    .muted{color:var(--muted);font-size:clamp(12px,2.8vw,14px)}
-    .footer{padding:0 clamp(12px,3.2vw,18px) clamp(14px,3.2vw,20px);display:flex;flex-wrap:wrap;gap:10px}
-    .btn{appearance:none;border:1px solid var(--border);background:#0b1222;color:var(--text);padding:10px 14px;border-radius:10px;cursor:pointer;font-size:15px;min-height:44px}
-    a.btn{color:var(--link);text-decoration:none}
-    .panel{display:none}
-    .panel.active{display:block}
-    @media (max-width: 600px){
-      .wrap{max-width:100%; padding:12px}
-      .grid{gap:12px; padding:0 12px 14px}
-      .box{padding:12px}
-      .btn{width:100%}
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Payment • Pro</title>
+<style>
+:root{--bg:#0b1020;--panel:rgba(15,23,42,.72);--text:#e2e8f0;--muted:#94a3b8;--line:#233044;--tcb:#e11d48;--vtm:#e11d48}
+*{box-sizing:border-box}html,body{margin:0;height:100%}body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--text);background:radial-gradient(1200px 700px at 10% -10%,#142036 0%,transparent 60%),radial-gradient(1200px 700px at 100% 0%,#0e162a 0%,transparent 60%),#0b1020}
+.wrap{max-width:1040px;margin:clamp(8px,3.5vw,28px) auto;padding:clamp(10px,3vw,24px)}
+.header{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+.logo{width:36px;height:36px;border-radius:10px;background:#121b31;display:grid;place-items:center;border:1px solid var(--line)}
+.title h1{margin:0;font-size:clamp(20px,5vw,28px)}
+.title p{margin:3px 0 0;color:var(--muted);font-size:14px}
+.panel{background:var(--panel);backdrop-filter:saturate(1.1) blur(10px);border:1px solid var(--line);border-radius:18px;box-shadow:0 12px 50px rgba(0,0,0,.35)}
+.tabs{display:flex;gap:10px;padding:14px;flex-wrap:wrap}
+.tab{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 14px;border-radius:12px;background:#0b1222;border:1px solid var(--line);color:var(--text);cursor:pointer;font-weight:600}
+.tab.active{box-shadow:0 0 0 2px rgba(255,255,255,.08) inset}
+.tab .dot{width:10px;height:10px;border-radius:10px;background:#555}
+.tab.tcb.active{border-color:var(--tcb)}.tab.vtm.active{border-color:var(--vtm)}
+.tab.tcb .dot{background:var(--tcb)}.tab.vtm .dot{background:var(--vtm)}
+.main{padding:0 14px 14px}
+.qr-wrap{display:grid;grid-template-columns:1fr 360px;gap:18px}@media (max-width:900px){.qr-wrap{grid-template-columns:1fr}}
+.qr-box{display:flex;justify-content:center}
+.qr-square{width:min(92vw,480px);max-width:480px;aspect-ratio:1/1;background:#fff;border-radius:16px;padding:18px;box-shadow:0 18px 40px rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center}
+.qr-square img{width:100%;height:100%;object-fit:contain;border-radius:10px;display:block}
+.info{padding:14px}
+.row{display:flex;justify-content:space-between;gap:12px;padding:10px 12px;border:1px dashed var(--line);border-radius:12px;margin-bottom:10px}
+.actions{display:flex;gap:10px;flex-wrap:wrap}.btn{appearance:none;border:1px solid var(--line);background:#0b1222;color:var(--text);padding:10px 14px;border-radius:10px;cursor:pointer;font-size:15px;min-height:44px}
+.btn.tcb{border-color:var(--tcb)}.btn.vtm{border-color:var(--vtm)}
+.hidden{display:none}
+</style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="card">
-      <div class="head">
-        <div>
-          <h1> </h1>
-          <p class="sub"> </p>
+<div class="wrap">
+  <div class="header">
+    
+   
+  </div>
+
+  <div class="panel">
+    <div class="tabs">
+      <button id="tab-tcb" class="tab tcb active" onclick="switchTab('tcb')"><span class="dot"></span> TECHCOMBANK</button>
+      <button id="tab-vtm" class="tab vtm" onclick="switchTab('vtm')"><span class="dot"></span> VIETTEL MONEY</button>
+    </div>
+    <div class="main">
+      <!-- TCB -->
+      <div id="pane-tcb">
+        <div class="qr-wrap">
+          <div class="qr-box"><div class="qr-square"><img id="tcb-qr" alt="VietQR"></div></div>
+          <div class="info">
+		 
+            <div class="row"><span>Ngân hàng: </span><b>TECHCOMBANK</b></div>
+            <div class="row"><span>Số tài khoản:</span><b id="tcb-acc">0978705905</b></div>
+            <div class="row"><span>Chủ tài khoản:</span><b id="tcb-name">BUI CHI VINH</b></div>
+            <div class="actions"><button class="btn tcb" onclick="copyTCB()">📋 Sao chép</button></div>
+          </div>
         </div>
       </div>
 
-      <div class="tabs">
-        <button id="tab-bank" class="tab-btn tab-bank active" onclick="switchTab('bank')"><span class="icon tcb"></span> TECHCOMBANK</button>
-        <button id="tab-vtm" class="tab-btn tab-vtm" onclick="switchTab('vtm')"><span class="icon vtm"></span> VIETTEL MONEY</button>
+      <!-- VTM -->
+      <div id="pane-vtm" class="hidden">
+        <div class="qr-wrap">
+          <div class="qr-box"><div class="qr-square"><img id="vtm-qr" src="assets/pay-viettel-qr.png" alt="Viettel Money"></div></div>
+          <div class="info">
+		  <div class="row"><span>NHS/VĐT: </span><b>VIETTEL MONEY</b></div>
+            <div class="row"><span>Số tài khoản:</span><b id="vtm-acc">0978705905</b></div>
+            <div class="row"><span>Chủ tài khoản:</span><b id="vtm-name">BUI CHI VINH</b></div>
+            <div class="actions"><button class="btn vtm" onclick="copyVTM()">📋 Sao chép</button></div>
+          </div>
+        </div>
       </div>
-
-      <!-- Panel: Bank transfer (VietQR) -->
-      <section id="panel-bank" class="panel active">
-        <div class="grid">
-          <div class="box qr">
-            <img id="vietqr" alt="VietQR" loading="eager" fetchpriority="high" decoding="async" onerror="fallbackQR()">
-            <canvas id="qr-canvas" style="display:none"></canvas>
-          </div>
-          <div class="box info">
-            <!--<p><span class="badge tcb">TECHCOMBANK</span></p>-->
-            <p>Ngân hàng: <b><span id="bankName">TECHCOMBANK</span></b></p>
-            <p>Số tài khoản: <b><span id="acc"></span></b></p>
-            <p>Chủ tài khoản: <b><span id="name"></span></b></p>
-            <button class="btn tcb-btn" onclick="copyInfo()">📋 Sao chép thông tin</button>
-          </div>
-        </div>
-      </section>
-
-      <!-- Panel: Viettel Money -->
-      <section id="panel-vtm" class="panel">
-        <div class="grid">
-          <div class="box qr">
-            <img id="vtm-img" alt="QR Viettel Money" loading="lazy" decoding="async" src="assets/pay-viettel-qr.png">
-          </div>
-          <div class="box info">
-            <!--<p><span class="badge vtm">VIETTEL MONEY</span></p>-->
-			<p>NHS/VĐT: <b>VIETTEL MONEY</b></p>
-			<p>Số tài khoản: <b><span id="vtm-acc">0978705905</span></b></p>
-            <p>Chủ tài khoản: <b><span id="vtm-name">BUI CHI VINH</span></b></p>
-            <button class="btn vtm-btn" onclick="copyVTMInfo()">📋 Sao chép thông tin</button>
-          </div>
-        </div>
-      </section>
 
     </div>
   </div>
-
-  <script>
-    // ==== Config Bank (VietQR) ====
-    const BANK_CODE = 'tcb';
-    const BANK_ACCOUNT = '0978705905';
-    const BANK_ACCOUNT_NAME = 'BUI CHI VINH';
-    const BANK_NAME_MAP = { tcb: 'TECHCOMBANK' };
-
-    // ==== Config Viettel Money ====
-    const VTM_URL = 'https://viettelmoney.go.link/im3gm';
-
-    function buildVietQRImageUrl(bank, acct, name){
-      const uName = encodeURIComponent(name);
-      return `https://img.vietqr.io/image/${bank}-${acct}-qr_only.png?accountName=${uName}`;
-    }
-
-    (function init(){
-      // Bank info
-      document.getElementById('bankName').textContent = BANK_NAME_MAP[BANK_CODE] || BANK_CODE.toUpperCase();
-      document.getElementById('acc').textContent = BANK_ACCOUNT;
-      document.getElementById('name').textContent = BANK_ACCOUNT_NAME;
-
-      const imgUrl = buildVietQRImageUrl(BANK_CODE, BANK_ACCOUNT, BANK_ACCOUNT_NAME);
-      const img = document.getElementById('vietqr');
-      img.src = imgUrl;
-
-      // Viettel Money setup (link copy convenience)
-      const vtmImg = document.getElementById('vtm-img');
-      vtmImg.src = 'assets/pay-viettel-qr.png';
-    })();
-
-    function fallbackQR(){
-      const img = document.getElementById('vietqr');
-      const c = document.getElementById('qr-canvas');
-      img.style.display = 'none';
-      c.style.display = 'block';
-      const s = document.createElement('script');
-      s.src = 'https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js';
-      s.onload = ()=>{
-        const holder = document.createElement('div');
-        new QRCode(holder, { text: `${BANK_CODE.toUpperCase()}|${BANK_ACCOUNT}|${BANK_ACCOUNT_NAME}`, width: 380, height: 380, correctLevel: QRCode.CorrectLevel.M });
-        const img2 = holder.querySelector('img') || holder.querySelector('canvas');
-        const ctx = c.getContext('2d');
-        c.width = 440; c.height = 440;
-        const tmp = new Image();
-        tmp.onload = ()=>{ ctx.fillStyle='#fff'; ctx.fillRect(0,0,c.width,c.height); ctx.drawImage(tmp,30,30,380,380); };
-        tmp.src = img2.src || img2.toDataURL();
-      };
-      document.head.appendChild(s);
-    }
-
-    function copyInfo(){
-      const t = `Ngân hàng: ${document.getElementById('bankName').textContent}\nSố tài khoản: ${BANK_ACCOUNT}\nChủ tài khoản: ${BANK_ACCOUNT_NAME}`;
-      navigator.clipboard.writeText(t).then(()=>alert('Đã copy thông tin.'));
-    }
-
-    function copyVTMInfo(){
-      const t = `NHS/VĐT: Viettel Money\nSố tài khoản: 0978705905\nChủ tài khoản: BUI CHI VINH`;
-      navigator.clipboard.writeText(t).then(()=>alert('Đã copy thông tin Viettel Money.'));
-    }
-
-    function switchTab(name){
-      document.getElementById('tab-bank').classList.toggle('active', name==='bank');
-      document.getElementById('tab-vtm').classList.toggle('active', name==='vtm');
-      document.getElementById('panel-bank').classList.toggle('active', name==='bank');
-      document.getElementById('panel-vtm').classList.toggle('active', name==='vtm');
-    }
-  </script>
+</div>
+<script>
+const BANK_CODE='tcb', ACC='0978705905', NAME='BUI CHI VINH';
+function buildVietQRImageUrl(bank, acct, name){
+  const u=encodeURIComponent(name);
+  return `https://img.vietqr.io/image/${bank}-${acct}-qr_only.png?accountName=${u}`;
+}
+document.getElementById('tcb-qr').src = buildVietQRImageUrl(BANK_CODE, ACC, NAME);
+function copyTCB(){navigator.clipboard.writeText(`Ngân hàng: TECHCOMBANK\nSố tài khoản: ${ACC}\nChủ tài khoản: ${NAME}`).then(()=>alert('Đã copy.'));}
+function copyVTM(){navigator.clipboard.writeText(`NHS/VĐT: Viettel Money\nSố tài khoản: ${ACC}\nChủ tài khoản: ${NAME}`).then(()=>alert('Đã copy.'));}
+function switchTab(name){
+  const isTCB=name==='tcb';
+  document.getElementById('tab-tcb').classList.toggle('active',isTCB);
+  document.getElementById('tab-vtm').classList.toggle('active',!isTCB);
+  document.getElementById('pane-tcb').classList.toggle('hidden',!isTCB);
+  document.getElementById('pane-vtm').classList.toggle('hidden',isTCB);
+}
+</script>
 </body>
 </html>
