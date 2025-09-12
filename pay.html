@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Payment • Pro</title>
+<title>Payment</title>
 <style>
 :root{--bg:#0b1020;--panel:rgba(15,23,42,.72);--text:#e2e8f0;--muted:#94a3b8;--line:#233044;--tcb:#e11d48;--vtm:#e11d48}
 *{box-sizing:border-box}html,body{margin:0;height:100%}body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--text);background:radial-gradient(1200px 700px at 10% -10%,#142036 0%,transparent 60%),radial-gradient(1200px 700px at 100% 0%,#0e162a 0%,transparent 60%),#0b1020}
@@ -41,8 +41,8 @@
 
   <div class="panel">
     <div class="tabs">
-      <button id="tab-tcb" class="tab tcb active" onclick="switchTab('tcb')"><span class="dot"></span><img class="logo" src="assets/tcb-logo.svg" alt="Techcombank logo" onload="this.previousElementSibling.style.display='none'" onerror="this.style.display='none'">TECHCOMBANK</button>
-      <button id="tab-vtm" class="tab vtm" onclick="switchTab('vtm')"><span class="dot"></span><img class="logo" src="assets/viettel-money-logo.svg" alt="Viettel Money logo" onload="this.previousElementSibling.style.display='none'" onerror="this.style.display='none'">VIETTEL MONEY</button>
+      <button id="tab-tcb" class="tab tcb active" onclick="switchTab('tcb')"><span class="dot"></span><img class="logo" src="assets/tcb-logo.svg" alt="Techcombank logo" onload="this.previousElementSibling.style.display='none'" onerror="this.style.display='none'">Techcombank</button>
+      <button id="tab-vtm" class="tab vtm" onclick="switchTab('vtm')"><span class="dot"></span><img class="logo" src="assets/viettel-money-logo.svg" alt="Viettel Money logo" onload="this.previousElementSibling.style.display='none'" onerror="this.style.display='none'">Viettel Money</button>
     </div>
     <div class="main">
       <!-- TCB -->
@@ -51,7 +51,7 @@
           <div class="qr-box"><div class="qr-square"><img id="tcb-qr" alt="VietQR"></div></div>
           <div class="info">
 		 
-            <div class="row"><span>Ngân hàng: </span><b>TECHCOMBANK</b></div>
+            <div class="row"><span>Ngân hàng: </span><b>Techcombank</b></div>
             <div class="row"><span>Số tài khoản:</span><b id="tcb-acc">0978705905</b></div>
             <div class="row"><span>Chủ tài khoản:</span><b id="tcb-name">BUI CHI VINH</b></div>
             <div class="actions"><button class="btn tcb" onclick="copyTCB()">📋 Sao chép</button></div>
@@ -64,7 +64,7 @@
         <div class="qr-wrap">
           <div class="qr-box"><div class="qr-square"><img id="vtm-qr" src="assets/pay-viettel-qr.png" alt="Viettel Money"></div></div>
           <div class="info">
-		  <div class="row"><span>NHS/VĐT: </span><b>VIETTEL MONEY</b></div>
+		  <div class="row"><span>NHS/VĐT: </span><b>Viettel Money</b></div>
             <div class="row"><span>Số tài khoản:</span><b id="vtm-acc">0978705905</b></div>
             <div class="row"><span>Chủ tài khoản:</span><b id="vtm-name">BUI CHI VINH</b></div>
             <div class="actions"><button class="btn vtm" onclick="copyVTM()">📋 Sao chép</button></div>
@@ -82,7 +82,7 @@ function buildVietQRImageUrl(bank, acct, name){
   return `https://img.vietqr.io/image/${bank}-${acct}-qr_only.png?accountName=${u}`;
 }
 document.getElementById('tcb-qr').src = buildVietQRImageUrl(BANK_CODE, ACC, NAME);
-function copyTCB(){navigator.clipboard.writeText(`Ngân hàng: TECHCOMBANK\nSố tài khoản: ${ACC}\nChủ tài khoản: ${NAME}`).then(()=>alert('Đã copy.'));}
+function copyTCB(){navigator.clipboard.writeText(`Ngân hàng: Techcombank\nSố tài khoản: ${ACC}\nChủ tài khoản: ${NAME}`).then(()=>alert('Đã copy.'));}
 function copyVTM(){navigator.clipboard.writeText(`NHS/VĐT: Viettel Money\nSố tài khoản: ${ACC}\nChủ tài khoản: ${NAME}`).then(()=>alert('Đã copy.'));}
 function switchTab(name){
   const isTCB=name==='tcb';
