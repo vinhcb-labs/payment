@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96">
+  <defs>
+    <style>
+      .red { fill:#ED1C24; }
+    </style>
+  </defs>
+  <rect width="96" height="96" fill="none"/>
+  <!-- left diamond -->
+  <rect x="14" y="28" width="24" height="24" transform="rotate(45 26 40)" class="red"/>
+  <!-- right diamond -->
+  <rect x="58" y="28" width="24" height="24" transform="rotate(45 70 40)" class="red"/>
+</svg>
