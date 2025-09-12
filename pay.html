@@ -50,8 +50,8 @@
 
   <div class="panel">
     <div class="tabs">
-      <button id="tab-tcb" class="tab tcb active" onclick="switchTab('tcb')"><span class="dot"></span> TECHCOMBANK</button>
-      <button id="tab-vtm" class="tab vtm" onclick="switchTab('vtm')"><span class="dot"></span> VIETTEL MONEY</button>
+      <button id="tab-tcb" class="tab tcb active" onclick="switchTab('tcb')"><span class="dot"></span>Techcombank</button>
+      <button id="tab-vtm" class="tab vtm" onclick="switchTab('vtm')"><span class="dot"></span>Viettel Money</button>
     </div>
     <div class="main">
       <!-- TCB -->
@@ -60,7 +60,7 @@
           <div class="qr-box"><div class="qr-square"><img id="tcb-qr" alt="VietQR"></div></div>
           <div class="info">
 		 
-            <div class="row"><span>Ngân hàng: </span><b>TECHCOMBANK</b></div>
+            <div class="row"><span>Ngân hàng: </span><b>Techcombank</b></div>
             <div class="row"><span>Số tài khoản:</span><b id="tcb-acc">0978705905</b></div>
             <div class="row"><span>Chủ tài khoản:</span><b id="tcb-name">BUI CHI VINH</b></div>
             <div class="actions"><button class="btn tcb" onclick="copyTCB()">📋 Sao chép</button></div>
@@ -73,7 +73,7 @@
         <div class="qr-wrap">
           <div class="qr-box"><div class="qr-square"><img id="vtm-qr" src="assets/pay-viettel-qr.png" alt="Viettel Money"></div></div>
           <div class="info">
-		  <div class="row"><span>NHS/VĐT: </span><b>VIETTEL MONEY</b></div>
+		  <div class="row"><span>NHS/VĐT: </span><b>Viettel Money</b></div>
             <div class="row"><span>Số tài khoản:</span><b id="vtm-acc">0978705905</b></div>
             <div class="row"><span>Chủ tài khoản:</span><b id="vtm-name">BUI CHI VINH</b></div>
             <div class="actions"><button class="btn vtm" onclick="copyVTM()">📋 Sao chép</button></div>
@@ -91,7 +91,7 @@ function buildVietQRImageUrl(bank, acct, name){
   return `https://img.vietqr.io/image/${bank}-${acct}-qr_only.png?accountName=${u}`;
 }
 document.getElementById('tcb-qr').src = buildVietQRImageUrl(BANK_CODE, ACC, NAME);
-function copyTCB(){navigator.clipboard.writeText(`Ngân hàng: TECHCOMBANK\nSố tài khoản: ${ACC}\nChủ tài khoản: ${NAME}`).then(()=>alert('Đã copy.'));}
+function copyTCB(){navigator.clipboard.writeText(`Ngân hàng: Techcombank\nSố tài khoản: ${ACC}\nChủ tài khoản: ${NAME}`).then(()=>alert('Đã copy.'));}
 function copyVTM(){navigator.clipboard.writeText(`NHS/VĐT: Viettel Money\nSố tài khoản: ${ACC}\nChủ tài khoản: ${NAME}`).then(()=>alert('Đã copy.'));}
 function switchTab(name){
   const isTCB=name==='tcb';
