@@ -20,11 +20,15 @@
 .tab.tcb.active{border-color:var(--tcb)}.tab.vtm.active{border-color:var(--vtm)}
 .tab.tcb .dot{background:var(--tcb)}.tab.vtm .dot{background:var(--vtm)}
 .main{padding:0 14px 14px}
-.qr-wrap{display:grid;grid-template-columns:1fr 360px;gap:18px}@media (max-width:900px){.qr-wrap{grid-template-columns:1fr}}
+.qr-wrap{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:980px;margin:0 auto;justify-items:center;align-items:start}@media (max-width:900px){.qr-wrap{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:980px;margin:0 auto;justify-items:center;align-items:start}}
 .qr-box{display:flex;justify-content:center;padding:clamp(8px,2vw,16px)}
 .qr-square{width:clamp(240px,70vw,420px);max-width:420px;aspect-ratio:1/1;background:#fff;border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center}
 .qr-square img{width:100%;height:100%;object-fit:contain;border-radius:10px;display:block}
 .info{padding:14px}
+
+/* balance columns */
+.info{width:100%;max-width:420px}
+
 .row{display:flex;justify-content:space-between;gap:12px;padding:10px 12px;border:1px dashed var(--line);border-radius:12px;margin-bottom:10px}
 .actions{display:flex;gap:10px;flex-wrap:wrap}.btn{appearance:none;border:1px solid var(--line);background:#0b1222;color:var(--text);padding:10px 14px;border-radius:10px;cursor:pointer;font-size:15px;min-height:44px}
 .btn.tcb{border-color:var(--tcb)}.btn.vtm{border-color:var(--vtm)}
