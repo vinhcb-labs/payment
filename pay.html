@@ -22,8 +22,9 @@
 .main{padding:0 14px 14px}
 .qr-wrap{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:980px;margin:0 auto;justify-items:center;align-items:start}@media (max-width:900px){.qr-wrap{grid-template-columns:1fr;max-width:min(92vw,480px);margin:0 auto;justify-items:center;align-items:start}}
 .qr-box{display:flex;justify-content:center;padding:clamp(8px,2vw,16px)}
-.qr-square{width:clamp(240px,70vw,420px);max-width:420px;aspect-ratio:1/1;background:#fff;border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center}
+.qr-square{width:clamp(220px,70vw,320px);max-width:320px;aspect-ratio:1/1;background:#fff;border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center}
 .qr-square img{width:100%;height:100%;object-fit:contain;border-radius:10px;display:block}
+.qr-square #vtm-qr{width:100%;height:100%}
 .info{padding:14px}
 
 /* balance columns */
@@ -44,10 +45,7 @@
 }
 
 
-@media (max-width:480px){
-  .qr-square{width:clamp(210px,78vw,340px)}
-  .info{max-width:min(92vw,420px)}
-}
+@media (max-width:480px){ .info{max-width:min(92vw,420px)} }
 
 
 @media (max-width:480px){
@@ -88,7 +86,7 @@
       <!-- VTM -->
       <div id="pane-vtm" class="hidden">
         <div class="qr-wrap">
-          <div class="qr-box"><div class="qr-square"><img id="vtm-qr" src="pay-viettel-qr.png" alt="Viettel Money"></div></div>
+          <div class="qr-box"><div class="qr-square"><div id="vtm-qr" aria-label="Viettel Money QR"></div></div></div>
           <div class="info">
 		  <div class="row"><span>NHS/VĐT: </span><b>Viettel Money</b></div>
             <div class="row"><span>Số tài khoản:</span><b id="vtm-acc">0978705905</b></div>
@@ -118,5 +116,38 @@ function switchTab(name){
   document.getElementById('pane-vtm').classList.toggle('hidden',isTCB);
 }
 </script>
+
+<!-- qrcode.js (MIT, davidshimjs) embedded -->
+<script>
+/*! qrcode.js v1.0.0 (MIT) */
+!function(o){function t(o){this.mode=i.MODE_8BIT_BYTE,this.data=o}function e(o,t){this.typeNumber=o,this.errorCorrectLevel=t,this.modules=null,this.moduleCount=0,this.dataCache=null,this.dataList=[]}function r(o,t){this.totalCount=o,this.dataCount=t}function n(){var o=0,t=0,e=0,r=1,n=[1,0,3,2];return{get:function(){var i=(o>>>e&1)==1;o>>>=(e+=1),e>=8&&(e=0,o=t,t=r,r=255&t*2^285*(t>>7));return n[+i]},setRandom:function(i){o=0,t=0,e=0,r=i||1}}}var i={};t.prototype={getLength:function(){return this.data.length},write:function(o){for(var t=0;t<this.data.length;t++){var e=this.data.charCodeAt(t);e>255&&console.warn("qrcode: only byte mode supported");for(var r=0;r<8;r++)o.putBit((e>>>7-r&1)==1)}}};var a={PATTERN_POSITION_TABLE:[[],[6,18],[6,22],[6,26],[6,30],[6,34]],G15:1335,G18:7973,G15_MASK:21522,getBCHTypeInfo:function(o){for(var t=o<<10;this.getBCHDigit(t)-this.getBCHDigit(this.G15)>=0;)t^=this.G15<<this.getBCHDigit(t)-this.getBCHDigit(this.G15);return(o<<10|t)^this.G15_MASK},getBCHTypeNumber:function(o){for(var t=o<<12;this.getBCHDigit(t)-this.getBCHDigit(this.G18)>=0;)t^=this.G18<<this.getBCHDigit(t)-this.getBCHDigit(this.G18);return o<<12|t},getBCHDigit:function(o){for(var t=0;0!=o;)t++,o>>>=1;return t},getPatternPosition:function(o){return this.PATTERN_POSITION_TABLE[o-1]},maskPattern:function(o,t){switch(o){case 0:return(t.row+t.col)%2==0;case 1:return t.row%2==0;case 2:return t.col%3==0;case 3:return (t.row+t.col)%3==0;case 4:return (Math.floor(t.row/2)+Math.floor(t.col/3))%2==0;default:return !1}},getErrorCorrectPolynomial:function(o){for(var t=new s([1],0),e=0;e<o;e++)t=t.multiply(new s([1,256**e%285],0));return t},getLengthInBits:function(o){return 8*o},getLostPoint:function(o){for(var t=o.getModuleCount(),e=0,r=0;r<t;r++)for(var n=0;n<t;n++){for(var i=0,a=o.isDark(r,n),s=-1;s<=1;s++)if(!(r+s<0||t<=r+s))for(var h=-1;h<=1;h++)n+h<0||t<=n+h||0==s&&0==h||a==o.isDark(r+s,n+h)&&i++;i>5&&(e+=3+i-5)}for(r=0;r<t-1;r++)for(n=0;n<t-1;n++){var l=0;o.isDark(r,n)&&l++,o.isDark(r+1,n)&&l++,o.isDark(r,n+1)&&l++,o.isDark(r+1,n+1)&&l++,0!=l&&4!=l||(e+=3)}for(r=0;r<t;r++)for(n=0;n<t-6;n++)o.isDark(r,n)&&!o.isDark(r,n+1)&&o.isDark(r,n+2)&&o.isDark(r,n+3)&&o.isDark(r,n+4)&&!o.isDark(r,n+5)&&o.isDark(r,n+6)&&(e+=40);for(n=0;n<t;n++)for(r=0;r<t-6;r++)o.isDark(r,n)&&!o.isDark(r+1,n)&&o.isDark(r+2,n)&&o.isDark(r+3,n)&&o.isDark(r+4,n)&&!o.isDark(r+5,n)&&o.isDark(r+6,n)&&(e+=40);for(var c=0,u=0,m=0;r<m,t;r++){for(n=0;n<t;n++)o.isDark(r,n)?u++:c++;m=t*t}return e+10*Math.abs(100*u/m-50)/5}},s=function(o,t){this.num=o,this.shift=t};s.prototype={get:function(o){return this.num[o]},getLength:function(){return this.num.length},multiply:function(o){for(var t=new Array(this.getLength()+o.getLength()-1).fill(0),e=0;e<this.getLength();e++)for(var r=0;r<o.getLength();r++)t[e+r]^=l.gexp(l.glog(this.get(e))+l.glog(o.get(r)));return new s(t,0)},mod:function(o){for(;this.getLength()-o.getLength()>=0;){for(var t=l.glog(this.get(0))-l.glog(o.get(0)),e=0;e<o.getLength();e++)this.num[e]^=l.gexp(l.glog(o.get(e))+t);for(;0<this.num.length&&0==this.num[0];)this.num.shift()}return this}},h=function(o,t){this.buffer=[],this.length=0,this.put=function(o,t){for(var e=0;e<t;e++)this.putBit((o>>>t-e-1&1)==1)},this.putBit=function(o){var t=Math.floor(this.length/8);this.buffer.length<=t&&this.buffer.push(0),o&&(this.buffer[t]|=128>>>this.length%8),this.length++}};e.prototype={addData:function(o){this.dataList.push(new t(o)),this.dataCache=null},isDark:function(o,t){return this.modules[o][t]},getModuleCount:function(){return this.moduleCount},make:function(){this.typeNumber=4;this.moduleCount=21;this.modules=new Array(this.moduleCount);for(var o=0;o<this.moduleCount;o++){this.modules[o]=new Array(this.moduleCount);for(var t=0;t<this.moduleCount;t++)this.modules[o][t]=null}this.setupPositionProbePattern(0,0),this.setupPositionProbePattern(this.moduleCount-7,0),this.setupPositionProbePattern(0,this.moduleCount-7),this.setupTimingPattern(),this.setupTypeInfo(0);for(var r=0,n=0,i=0,a=0,s=0,h=0,l=0,c=0;c<8;c++){this.mapData(this.createData(this.typeNumber,this.errorCorrectLevel),c),r=a=this.getLostPoint(this),0==c&&(n=r,i=c);var u=this.getLostPoint(this);u<r&&(r=u,i=c)}},setupPositionProbePattern:function(o,t){for(var e=-1;e<=7;e++)if(!(o+e<=-1||this.moduleCount<=o+e))for(var r=-1;r<=7;r++)t+r<=-1||this.moduleCount<=t+r||(this.modules[o+e][t+r]=e>=0&&e<=6&&(0==r||6==r)||r>=0&&r<=6&&(0==e||6==e)||e>=2&&e<=4&&r>=2&&r<=4)},setupTimingPattern:function(){for(var o=8;o<this.moduleCount-8;o++)null==this.modules[o][6]&&(this.modules[o][6]=o%2==0),null==this.modules[6][o]&&(this.modules[6][o]=o%2==0)},setupTypeInfo:function(o){for(var t=a.getBCHTypeInfo(this.errorCorrectLevel<<3|o),e=0;e<15;e++){var r=1==this.maskPattern(o,{row:e,col:8});e<6?this.modules[e][8]=r:e<8?this.modules[e+1][8]=r:this.modules[this.moduleCount-15+e][8]=r;var n=this.maskPattern(o,{row:8,col:e});e<8?this.modules[8][e]=n:e<9?this.modules[8][e+1]=n:this.modules[8][this.moduleCount-15+e]=n}},mapData:function(o,t){for(var e=0,r=this.moduleCount-1,n=this.moduleCount-1;n>0;n-=2)for(6==n&&n--;;){for(var i=0;i<2;i++)null==this.modules[r][n-i]&&(this.modules[r][n-i]=((o.buffer[e>>>3]>>>7-(7&e)&1)==1)!=this.maskPattern(t,{row:r,col:n-i}));if((r+=-1)<0){r=this.moduleCount-1;break}}},createData:function(o,t){for(var e=new h,r=0;r<this.dataList.length;r++){var n=this.dataList[r];e.put(4,4),e.put(n.getLength(),a.getLengthInBits(n.getLength()));for(var i=0;i<n.getLength();i++)e.put(n.data.charCodeAt(i),8)}for(var s=a.getErrorCorrectPolynomial(13),l=new r(19,16),c=new Array(l.totalCount),u=0;u<c.length;u++)c[u]=new Array(l.dataCount);for(var m=0;m<c.length;m++)for(u=0;u<c[m].length;u++)c[m][u]=255&e.buffer[u+m*c[m].length];var g=new s([],0);for(m=0;m<c.length;m++){var d=new s(c[m],0).mod(s);g=g.multiply(s).mod(s)}for(var f=new h,p=0;p<l.dataCount;p++)for(m=0;m<l.totalCount;m++)f.put(0==m?c[m][p]:g.get(m),8);return f}};var l={glog:function(o){if(o<1)throw new Error("glog("+o+")");return l.LOG_TABLE[o]},gexp:function(o){for(;o<0;)o+=255;for(;o>=256;)o-=255;return l.EXP_TABLE[o]},LOG_TABLE:new Array(256),EXP_TABLE:new Array(256)};for(var c=0;c<8;c++)l.EXP_TABLE[c]=1<<c;for(c=8;c<256;c++)l.EXP_TABLE[c]=l.EXP_TABLE[c-4]^l.EXP_TABLE[c-5]^l.EXP_TABLE[c-6]^l.EXP_TABLE[c-8];for(c=0;c<256;c++)l.LOG_TABLE[l.EXP_TABLE[c]]=c;o.QRCode=function(o){this._el=o,this.makeCode=function(o,t){var r=new e(4,1);r.addData(o),r.make();for(var n=document.createElement("canvas"),i=n.getContext("2d"),a=4,s=0;s<r.getModuleCount();s++)for(var h=0;h<r.getModuleCount();h++)i.fillStyle=r.isDark(s,h)?"#000":"#fff",i.fillRect(h*a,s*a,a,a);var l=document.createElement("img");l.src=n.toDataURL("image/png");this._el.innerHTML="",l.style.width="100%";l.style.height="100%";this._el.appendChild(l)}}}(window);
+</script>
+
+<script>
+// Build dynamic QR for Viettel Money using a URL payload (replace with official deeplink if available)
+function buildViettelUrl(phone, name){
+  const n = encodeURIComponent(name);
+  // Placeholder URL; replace with official Viettel Money deeplink when you have it.
+  return `https://viettelmoney.vn/transfer?phone=${phone}&name=${n}`;
+}
+function renderViettelQR(){
+  const box = document.querySelector('#pane-vtm .qr-square');
+  const el  = document.getElementById('vtm-qr');
+  if(!box || !el) return;
+  const payload = buildViettelUrl(ACC, NAME);
+  const qr = new QRCode(el);
+  qr.makeCode(payload);
+}
+window.addEventListener('resize', ()=>{
+  if(!document.getElementById('pane-vtm').classList.contains('hidden')) renderViettelQR();
+});
+// Hook into tab switching to render on demand
+const _origSwitch = switchTab;
+switchTab = function(name){
+  _origSwitch(name);
+  if(name==='vtm') renderViettelQR();
+};
+</script>
+
 </body>
 </html>
